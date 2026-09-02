@@ -10,14 +10,15 @@
 </bkd-backlink>
 
 <div class="d-flex flex-column header">
-  <h1>{{ getDesignation() }}</h1>
-  @if (course.Participants) {
+  <h1>{{ courseDesignation() }}</h1>
+  @let participants = course().Participants;
+  @if (participants) {
     <div class="additional-info">
       {{
-        (course.Participants.length === 1
+        (participants.length === 1
           ? "courses.registration"
           : "courses.registrations"
-        ) | translate: { count: course.Participants.length }
+        ) | translate: { count: participants.length }
       }}
     </div>
   }

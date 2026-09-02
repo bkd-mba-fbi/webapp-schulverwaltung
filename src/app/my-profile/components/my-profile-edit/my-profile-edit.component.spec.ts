@@ -7,7 +7,6 @@ import { MyProfileService } from "../../services/my-profile.service";
 import { MyProfileEditComponent } from "./my-profile-edit.component";
 
 describe("MyProfileEditComponent", () => {
-  // let component: MyProfileEditComponent;
   let fixture: ComponentFixture<MyProfileEditComponent>;
   let element: HTMLElement;
   let profileService: MyProfileService;
@@ -51,7 +50,6 @@ describe("MyProfileEditComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyProfileEditComponent);
-    // component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });

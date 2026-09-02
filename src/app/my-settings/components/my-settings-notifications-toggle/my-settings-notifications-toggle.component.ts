@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
+  computed,
   forwardRef,
   inject,
+  input,
+  model,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { SwitchComponent } from "../../../shared/components/switch/switch.component";
@@ -24,15 +26,15 @@ import { SwitchComponent } from "../../../shared/components/switch/switch.compon
   ],
 })
 export class MySettingsNotificationsToggleComponent implements ControlValueAccessor {
-  private cd = inject(ChangeDetectorRef);
+  private readonly cd = inject(ChangeDetectorRef);
 
-  @Input() id = "";
-  @Input() label = "";
-  @Input() description: Option<string> = null;
-  @Input() disabled = false;
+  readonly id = input.required<string>();
+  readonly label = input.required<string>();
+  readonly description = input<Option<string>>(null);
+  readonly disabled = model(false);
 
-  onChange = (_: boolean) => {};
-  onTouched = () => {};
+  private onChange = (_: boolean) => {};
+  private onTouched = () => {};
 
   private _value = false;
 
@@ -45,9 +47,10 @@ export class MySettingsNotificationsToggleComponent implements ControlValueAcces
     this.onChange(value);
   }
 
-  get descriptionLines(): ReadonlyArray<string> {
-    return this.description ? this.description.split("\n") : [];
-  }
+  protected readonly descriptionLines = computed(() => {
+    const description = this.description();
+    return description ? description.split("\n") : [];
+  });
 
   writeValue(value: boolean): void {
     this._value = value;
@@ -62,7 +65,7 @@ export class MySettingsNotificationsToggleComponent implements ControlValueAcces
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabled.set(isDisabled);
     this.cd.markForCheck();
   }
 }

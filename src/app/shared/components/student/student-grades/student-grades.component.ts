@@ -26,10 +26,10 @@ import { StudentGradesAccordionComponent } from "../student-grades-accordion/stu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentGradesComponent implements OnInit, OnDestroy {
-  state = inject(StudentStateService);
-  gradesService = inject(StudentGradesService);
+  protected readonly state = inject(StudentStateService);
+  protected readonly gradesService = inject(StudentGradesService);
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.state.studentId$

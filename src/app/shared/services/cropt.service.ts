@@ -10,21 +10,21 @@ import { Cropt } from "cropt";
 
 @Injectable()
 export class CroptService implements OnDestroy {
-  error = signal<Option<unknown>>(null);
+  readonly error = signal<Option<unknown>>(null);
 
-  private element = signal<Option<HTMLElement>>(null);
-  private image = signal<Option<File>>(null);
-  private cropSize = signal<{ width: number; height: number }>({
+  private readonly element = signal<Option<HTMLElement>>(null);
+  private readonly image = signal<Option<File>>(null);
+  private readonly cropSize = signal<{ width: number; height: number }>({
     width: 240,
     height: 320,
   });
-  private cropImageType = signal("image/jpeg");
-  private cropImageQuality = signal(0.8);
+  private readonly cropImageType = signal("image/jpeg");
+  private readonly cropImageQuality = signal(0.8);
 
-  private croptOptions = computed(() => ({
+  private readonly croptOptions = computed(() => ({
     viewport: this.cropSize(),
   }));
-  private cropt = linkedSignal<Option<HTMLElement>, Option<Cropt>>({
+  private readonly cropt = linkedSignal<Option<HTMLElement>, Option<Cropt>>({
     source: this.element,
     computation: (element, previous) => {
       previous?.value?.destroy();

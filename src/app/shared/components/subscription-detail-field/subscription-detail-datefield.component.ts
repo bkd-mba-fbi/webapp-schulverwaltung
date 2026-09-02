@@ -65,18 +65,20 @@ const DATE_FORMAT = "dd.MM.yyyy";
 export class SubscriptionDetailDatefieldComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  normalizedValue = computed(() =>
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  protected readonly normalizedValue = computed(() =>
     this.value() ? String(this.value()) : null,
   );
 
-  private datepicker = viewChild.required(NgbInputDatepicker);
-  private destroy$ = new Subject<void>();
+  private readonly datepicker = viewChild.required(NgbInputDatepicker);
+  private readonly destroy$ = new Subject<void>();
 
   ngAfterViewInit(): void {
     this.datepicker()
@@ -89,11 +91,11 @@ export class SubscriptionDetailDatefieldComponent
     this.destroy$.complete();
   }
 
-  onChange(value: Option<string>): void {
+  protected onChange(value: Option<string>): void {
     this.value.set(value);
   }
 
-  onBlur(): void {
+  protected onBlur(): void {
     // To not overwrite the user's input, while editing the date string, the
     // value can temporarlily be an invalid string. In this case, we set it to
     // `null` on blur.
@@ -105,7 +107,7 @@ export class SubscriptionDetailDatefieldComponent
     this.commit.emit(this.value() ?? null);
   }
 
-  onSelect(): void {
+  private onSelect(): void {
     this.commit.emit(this.value() ?? null);
   }
 }

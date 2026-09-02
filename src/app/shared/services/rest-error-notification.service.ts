@@ -9,8 +9,8 @@ import { ToastService } from "./toast.service";
   providedIn: "root",
 })
 export class RestErrorNotificationService {
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
   /**
    * Displays a toast for the given HTTP error response, excluding for 401
@@ -39,15 +39,15 @@ export class RestErrorNotificationService {
     this.notifyMessage("noaccess");
   }
 
-  notifyNotFound(): void {
+  private notifyNotFound(): void {
     this.notifyMessage("notfound");
   }
 
-  notifyUnavailable(): void {
+  private notifyUnavailable(): void {
     this.notifyMessage("unavailable");
   }
 
-  notifyServerError(): void {
+  private notifyServerError(): void {
     this.notifyMessage("server");
   }
 
@@ -73,7 +73,7 @@ export class RestErrorNotificationService {
    *   ]
    * }
    */
-  notifyConflict(error: HttpErrorResponse): void {
+  private notifyConflict(error: HttpErrorResponse): void {
     const defaultMessage = this.translate.instant(
       `global.rest-errors.conflict-message`,
     );

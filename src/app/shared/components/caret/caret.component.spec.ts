@@ -3,7 +3,6 @@ import { buildTestModuleMetadata } from "../../../../spec-helpers";
 import { CaretComponent } from "./caret.component";
 
 describe("CaretComponent", () => {
-  let component: CaretComponent;
   let fixture: ComponentFixture<CaretComponent>;
   let element: HTMLElement;
 
@@ -14,7 +13,6 @@ describe("CaretComponent", () => {
       }),
     );
     fixture = TestBed.createComponent(CaretComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -25,14 +23,14 @@ describe("CaretComponent", () => {
   });
 
   it("should show expand less icon if expanded", () => {
-    component.expanded = true;
+    fixture.componentRef.setInput("expanded", true);
     fixture.detectChanges();
 
     expect(element.textContent).toContain("expand_less");
   });
 
   it("should show expand more icon if not expanded", () => {
-    component.expanded = false;
+    fixture.componentRef.setInput("expanded", false);
     fixture.detectChanges();
 
     expect(element.textContent).toContain("expand_more");

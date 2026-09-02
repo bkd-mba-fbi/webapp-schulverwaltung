@@ -34,17 +34,17 @@ import { SubscriptionsRestService } from "./subscriptions-rest.service";
   providedIn: "root",
 })
 export class StudentDossierEditService {
-  private route = inject(ActivatedRoute);
-  private studentState = inject(StudentStateService);
-  private additionalInformationsService = inject(
+  private readonly route = inject(ActivatedRoute);
+  private readonly studentState = inject(StudentStateService);
+  private readonly additionalInformationsService = inject(
     AdditionalInformationsRestService,
   );
-  private dropDownItemsService = inject(DropDownItemsRestService);
-  private subscriptionsService = inject(SubscriptionsRestService);
-  private coursesService = inject(CoursesRestService);
-  private loadingService = inject(LoadingService);
-  private settings = inject<Settings>(SETTINGS);
-  private storageService = inject(StorageService);
+  private readonly dropDownItemsService = inject(DropDownItemsRestService);
+  private readonly subscriptionsService = inject(SubscriptionsRestService);
+  private readonly coursesService = inject(CoursesRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly storageService = inject(StorageService);
 
   loading$ = this.loadingService.loading$;
   studentId$ = this.studentState.studentId$;

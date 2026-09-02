@@ -31,9 +31,5 @@ export function addGroupToDropdownItem(
   items: ReadonlyArray<DropDownItem>,
   group: string,
 ): ReadonlyArray<DropDownGroupedItem> {
-  return items.map((i) =>
-    Object.assign(i, {
-      Group: group,
-    }),
-  );
+  return items.map((i) => ({ ...i, Group: group }));
 }

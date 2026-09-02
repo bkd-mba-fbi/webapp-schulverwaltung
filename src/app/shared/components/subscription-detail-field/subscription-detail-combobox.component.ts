@@ -64,21 +64,23 @@ import { SubscriptionDetail } from "src/app/shared/models/subscription.model";
 export class SubscriptionDetailComboboxComponent
   implements AfterViewInit, OnDestroy
 {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  items = computed(() =>
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  private readonly items = computed(() =>
     this.detail().DropdownItems?.filter((item) => item.IsActive),
   );
 
-  private typeahead = viewChild.required(NgbTypeahead);
-  private typeaheadInput =
+  private readonly typeahead = viewChild.required(NgbTypeahead);
+  private readonly typeaheadInput =
     viewChild.required<ElementRef<HTMLInputElement>>("typeahead");
-  private focus$ = new Subject<string>();
-  private destroy$ = new Subject<void>();
+  private readonly focus$ = new Subject<string>();
+  private readonly destroy$ = new Subject<void>();
 
   ngAfterViewInit(): void {
     this.typeahead()
@@ -103,32 +105,34 @@ export class SubscriptionDetailComboboxComponent
     );
   }
 
-  search: OperatorFunction<string, readonly string[]> = (term$) =>
+  protected readonly search: OperatorFunction<string, readonly string[]> = (
+    term$,
+  ) =>
     merge(term$, this.focus$).pipe(
       distinctUntilChanged(),
       map(this.findSuggestions.bind(this)),
     );
 
-  onChange(event: Event): void {
+  protected onChange(event: Event): void {
     const { value } = event.target as HTMLInputElement;
     this.value.set(value || null);
   }
 
-  onFocus(event: Event): void {
+  protected onFocus(event: Event): void {
     const { value } = event.target as HTMLInputElement;
     this.focus$.next(value);
   }
 
-  onBlur(): void {
+  protected onBlur(): void {
     this.commit.emit(this.value() ?? null);
   }
 
-  onSelect(value: string): void {
+  private onSelect(value: string): void {
     this.value.set(value);
     this.commit.emit(value ?? null);
   }
 
-  onKeyDown = (event: KeyboardEvent) => {
+  private readonly onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Tab") {
       event.stopImmediatePropagation();
       if (this.typeahead().isPopupOpen()) {
@@ -137,14 +141,14 @@ export class SubscriptionDetailComboboxComponent
     }
   };
 
-  onClear(): void {
+  protected onClear(): void {
     this.value.set(null);
     this.commit.emit(null);
 
     setTimeout(() => this.typeaheadInput().nativeElement.focus());
   }
 
-  onToggle() {
+  protected onToggle() {
     if (this.isPopupOpen()) {
       this.typeahead().dismissPopup();
     } else {
@@ -152,7 +156,7 @@ export class SubscriptionDetailComboboxComponent
     }
   }
 
-  isPopupOpen(): boolean {
+  protected isPopupOpen(): boolean {
     return this.typeahead().isPopupOpen();
   }
 

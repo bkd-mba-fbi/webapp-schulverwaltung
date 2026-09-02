@@ -12,9 +12,9 @@ import { decode } from "../utils/decode";
   providedIn: "root",
 })
 export class ConfigurationsRestService {
-  private settings = inject<Settings>(SETTINGS);
-  private resourcePath = "Configurations";
-  private http = inject(HttpClient);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly resourcePath = "Configurations";
+  private readonly http = inject(HttpClient);
 
   getSubscriptionDetailsDisplay(): Observable<SubscriptionDetailsDisplay> {
     return this.http

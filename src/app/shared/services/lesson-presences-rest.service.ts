@@ -36,9 +36,9 @@ import { StorageService } from "./storage.service";
 export class LessonPresencesRestService extends RestService<
   typeof LessonPresence
 > {
-  private storage = inject(StorageService);
+  private readonly storage = inject(StorageService);
 
-  protected lessonPresenceRefCodec = t.type(
+  private readonly lessonPresenceRefCodec = t.type(
     pick(this.codec.props, [
       "LessonRef",
       "RegistrationRef",
@@ -48,7 +48,9 @@ export class LessonPresencesRestService extends RestService<
       "TypeRef",
     ]),
   );
-  protected lessonPresenceIdCodec = t.type(pick(this.codec.props, ["Id"]));
+  private readonly lessonPresenceIdCodec = t.type(
+    pick(this.codec.props, ["Id"]),
+  );
 
   constructor() {
     const http = inject(HttpClient);
@@ -222,7 +224,7 @@ export class LessonPresencesRestService extends RestService<
       .pipe(switchMap(decodeArray(this.lessonPresenceRefCodec)));
   }
 
-  getRegistrationRefsByEventIds(
+  private getRegistrationRefsByEventIds(
     eventIds: ReadonlyArray<number>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     let params = new HttpParams();

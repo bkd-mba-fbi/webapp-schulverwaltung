@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BehaviorSubject } from "rxjs";
+import { PresenceControlViewMode } from "src/app/shared/models/user-settings.model";
 import { buildReference } from "src/spec-builders";
 import { buildTestModuleMetadata } from "src/spec-helpers";
 import { fromLesson } from "../../models/lesson-entry.model";
@@ -8,7 +9,6 @@ import { PresenceControlStateService } from "../../services/presence-control-sta
 import { PresenceControlHeaderComponent } from "./presence-control-header.component";
 
 describe("PresenceControlHeaderComponent", () => {
-  let component: PresenceControlHeaderComponent;
   let fixture: ComponentFixture<PresenceControlHeaderComponent>;
   let element: HTMLElement;
   let groupsAvailability$: BehaviorSubject<boolean>;
@@ -42,7 +42,6 @@ describe("PresenceControlHeaderComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlHeaderComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
 
     const lesson = {
@@ -57,8 +56,10 @@ describe("PresenceControlHeaderComponent", () => {
 
     const lessonEntry = fromLesson(lesson);
 
-    component.lessons = [lessonEntry];
-    component.selectedLesson = lessonEntry;
+    fixture.componentRef.setInput("lessons", [lessonEntry]);
+    fixture.componentRef.setInput("selectedLesson", lessonEntry);
+    fixture.componentRef.setInput("selectedDate", new Date());
+    fixture.componentRef.setInput("viewMode", PresenceControlViewMode.Grid);
   });
 
   describe("group button", () => {

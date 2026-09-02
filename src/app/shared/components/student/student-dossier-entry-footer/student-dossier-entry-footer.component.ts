@@ -22,13 +22,15 @@ import { StudentDossierEditLinkComponent } from "../student-dossier-edit-link/st
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEntryFooterComponent {
-  private state = inject(StudentStateService);
-  private storage = inject(StorageService);
+  private readonly state = inject(StudentStateService);
+  private readonly storage = inject(StorageService);
 
-  entry = input.required<StudentDossierEntry>();
+  readonly entry = input.required<StudentDossierEntry>();
 
-  private studentId = toSignal(this.state.studentId$, { requireSync: true });
-  studentName = toSignal(
+  private readonly studentId = toSignal(this.state.studentId$, {
+    requireSync: true,
+  });
+  protected readonly studentName = toSignal(
     this.state.student$.pipe(map((student) => student?.FullName ?? null)),
     {
       initialValue: null,
@@ -38,7 +40,7 @@ export class StudentDossierEntryFooterComponent {
   /**
    * Whether the current user is the student itself.
    */
-  isStudent = computed(() => {
+  protected readonly isStudent = computed(() => {
     const studentId = this.studentId();
     const userId = this.storage.getPayload()?.id_person ?? null;
     return userId ? studentId === Number(userId) : false;

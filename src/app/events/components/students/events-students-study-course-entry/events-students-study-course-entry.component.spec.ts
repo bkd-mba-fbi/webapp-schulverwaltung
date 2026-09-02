@@ -25,7 +25,6 @@ describe("EventsStudentsStudyCourseEntryComponent", () => {
       eventDesignation: "English S3",
       status: "Angemeldet",
     });
-    fixture.componentRef.setInput("selected", false);
     fixture.componentRef.setInput("returnLink", "/events/current");
     fixture.detectChanges();
   });

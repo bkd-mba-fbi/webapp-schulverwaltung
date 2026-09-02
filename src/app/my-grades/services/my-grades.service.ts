@@ -24,27 +24,27 @@ import { notNull } from "../../shared/utils/filter";
 
 @Injectable()
 export class MyGradesService {
-  private storageService = inject(StorageService);
-  private loadingService = inject(LoadingService);
-  private coursesRestService = inject(CoursesRestService);
-  private subscriptionRestService = inject(SubscriptionsRestService);
-  private reportsService = inject(ReportsService);
-  private gradingScalesRestService = inject(GradingScalesRestService);
+  private readonly storageService = inject(StorageService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly coursesRestService = inject(CoursesRestService);
+  private readonly subscriptionRestService = inject(SubscriptionsRestService);
+  private readonly reportsService = inject(ReportsService);
+  private readonly gradingScalesRestService = inject(GradingScalesRestService);
 
   loading$ = this.loadingService.loading$;
   studentId$ = new ReplaySubject<number>(1);
 
-  private subscriptionAndEventsIds$ = this.studentId$.pipe(
+  private readonly subscriptionAndEventsIds$ = this.studentId$.pipe(
     switchMap(this.loadSubscriptionAndEventIds.bind(this)),
     shareReplay(1),
   );
-  private subscriptionIds$ = this.subscriptionAndEventsIds$.pipe(
+  private readonly subscriptionIds$ = this.subscriptionAndEventsIds$.pipe(
     map((ids) => ids.subscriptionIds),
   );
-  private eventIds$ = this.subscriptionAndEventsIds$.pipe(
+  private readonly eventIds$ = this.subscriptionAndEventsIds$.pipe(
     map((ids) => ids.eventIds),
   );
-  private scopeSubject$ = new BehaviorSubject<EventScope>("current");
+  private readonly scopeSubject$ = new BehaviorSubject<EventScope>("current");
   scope$ = this.scopeSubject$.asObservable();
 
   studentCourses$ = this.eventIds$.pipe(
@@ -61,13 +61,13 @@ export class MyGradesService {
     map((ids) => this.reportsService.getStudentSubscriptionGradesReports(ids)),
   );
 
-  private tests$ = this.studentCourses$.pipe(
+  private readonly tests$ = this.studentCourses$.pipe(
     map((courses) =>
       courses.flatMap((course: Course) => course.Tests).filter(notNull),
     ),
   );
 
-  private gradingScaleIds$ = combineLatest([
+  private readonly gradingScaleIds$ = combineLatest([
     this.tests$.pipe(
       map((tests) => [...tests.map((test) => test.GradingScaleId)]),
     ),

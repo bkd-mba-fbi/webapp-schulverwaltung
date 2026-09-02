@@ -19,7 +19,7 @@ describe("TestsTableTestHeaderComponent", () => {
     const test = buildTest(123, 345, []);
     fixture = TestBed.createComponent(TestTableHeaderComponent);
     component = fixture.componentInstance;
-    component.test = test;
+    fixture.componentRef.setInput("test", test);
     fixture.detectChanges();
   });
 

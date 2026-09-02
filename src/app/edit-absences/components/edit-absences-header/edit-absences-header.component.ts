@@ -2,10 +2,9 @@ import { AsyncPipe } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   inject,
+  linkedSignal,
+  model,
 } from "@angular/core";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { startOfDay } from "date-fns";
@@ -17,6 +16,12 @@ import {
 import { CoursesRestService } from "src/app/shared/services/courses-rest.service";
 import { StudentsRestService } from "src/app/shared/services/students-rest.service";
 import { StudyClassesRestService } from "src/app/shared/services/study-classes-rest.service";
+import {
+  keyToNumber,
+  keyToString,
+  keysToNumbers,
+  keysToStrings,
+} from "src/app/shared/utils/drop-down-items";
 import { not } from "src/app/shared/utils/filter";
 import {
   addGroupToDropdownItem,
@@ -46,15 +51,16 @@ import {
   ],
 })
 export class EditAbsencesHeaderComponent {
-  studentsService = inject(StudentsRestService);
-  coursesService = inject(CoursesRestService);
-  studyClassService = inject(StudyClassesRestService);
-  teacherResourcesService = inject(TeacherResourcesRestService);
-  private state = inject(EditAbsencesStateService);
-  private translate = inject(TranslateService);
+  protected readonly studentsService = inject(StudentsRestService);
+  protected readonly coursesService = inject(CoursesRestService);
+  protected readonly studyClassService = inject(StudyClassesRestService);
+  protected readonly teacherResourcesService = inject(
+    TeacherResourcesRestService,
+  );
+  private readonly state = inject(EditAbsencesStateService);
+  private readonly translate = inject(TranslateService);
 
-  @Input()
-  filter: EditAbsencesFilter = {
+  readonly filter = model<EditAbsencesFilter>({
     student: null,
     course: null,
     studyClass: null,
@@ -65,11 +71,16 @@ export class EditAbsencesHeaderComponent {
     presenceTypes: null,
     confirmationStates: null,
     incidentTypes: null,
-  };
+  });
 
-  @Output() filterChange = new EventEmitter<EditAbsencesFilter>();
+  /**
+   * The filter currently being edited. Changes stay local until they get
+   * committed to `filter` by `show`, in order to not reload the entries
+   * on every single change.
+   */
+  protected readonly intermediateFilter = linkedSignal(() => this.filter());
 
-  weekdaysGrouped$ = this.state.weekdays$.pipe(
+  protected readonly weekdaysGrouped$ = this.state.weekdays$.pipe(
     map((weekdays) =>
       addGroupToDropdownItem(
         weekdays,
@@ -78,7 +89,7 @@ export class EditAbsencesHeaderComponent {
     ),
   );
 
-  absenceConfirmationStatesGrouped$ =
+  protected readonly absenceConfirmationStatesGrouped$ =
     this.state.absenceConfirmationStates$.pipe(
       map((i) =>
         addGroupToDropdownItem(
@@ -88,7 +99,7 @@ export class EditAbsencesHeaderComponent {
       ),
     );
 
-  presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
+  protected readonly presenceTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) =>
       presenceTypes.filter(not(isComment)).filter(not(isIncident)),
     ),
@@ -102,7 +113,7 @@ export class EditAbsencesHeaderComponent {
     ),
   );
 
-  incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
+  protected readonly incidentTypesGrouped$ = this.state.presenceTypes$.pipe(
     map((presenceTypes) => presenceTypes.filter(isIncident)),
     map(sortPresenceTypes),
     map(createPresenceTypesDropdownItems),
@@ -114,38 +125,50 @@ export class EditAbsencesHeaderComponent {
     ),
   );
 
-  classesHttpFilter = {
+  protected readonly classesHttpFilter = {
     params: {
       fields: "IsActive",
       ["filter.IsActive"]: "=true",
     },
   };
 
-  onDateFromChange(date: Date | null) {
-    this.filter.dateFrom = date;
+  protected readonly keyToNumber = keyToNumber;
+  protected readonly keysToNumbers = keysToNumbers;
+  protected readonly keyToString = keyToString;
+  protected readonly keysToStrings = keysToStrings;
 
-    // Make sure both date fields have a value
-    if (!this.filter.dateTo) {
-      this.filter.dateTo = date;
-    }
+  onDateFromChange(date: Option<Date>) {
+    this.intermediateFilter.update((current) => ({
+      ...current,
+      dateFrom: date,
+
+      // Make sure both date fields have a value
+      dateTo: current.dateTo ? current.dateTo : date,
+    }));
   }
 
-  onDateToChange(date: Date | null) {
-    this.filter.dateTo = date;
+  onDateToChange(date: Option<Date>) {
+    this.intermediateFilter.update((current) => ({
+      ...current,
+      dateTo: date,
 
-    // Make sure both date fields have a value
-    if (!this.filter.dateFrom) {
-      this.filter.dateFrom = date;
-    }
+      // Make sure both date fields have a value
+      dateFrom: current.dateFrom ? current.dateFrom : date,
+    }));
   }
 
-  show(): void {
-    this.filterChange.emit({
-      ...this.filter,
+  protected patchFilter(patch: Partial<EditAbsencesFilter>): void {
+    this.intermediateFilter.update((current) => ({ ...current, ...patch }));
+  }
+
+  protected show(): void {
+    const intermediateFilter = this.intermediateFilter();
+    this.filter.set({
+      ...intermediateFilter,
 
       // Normalize the dates' times to 00:00 to be comparable
-      dateFrom: normalizeDate(this.filter.dateFrom),
-      dateTo: normalizeDate(this.filter.dateTo),
+      dateFrom: normalizeDate(intermediateFilter.dateFrom),
+      dateTo: normalizeDate(intermediateFilter.dateTo),
     });
   }
 }

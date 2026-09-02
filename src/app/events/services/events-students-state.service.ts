@@ -65,19 +65,19 @@ export type SortKey = "name" | "registrationDate";
   providedIn: "root",
 })
 export class EventsStudentsStateService {
-  private route = inject(ActivatedRoute);
-  private loadingService = inject(LoadingService);
-  private eventsService = inject(EventsRestService);
-  private coursesService = inject(CoursesRestService);
-  private subscriptionsService = inject(SubscriptionsRestService);
-  private personsService = inject(PersonsRestService);
-  private apprenticeshipContractsService = inject(
+  private readonly route = inject(ActivatedRoute);
+  private readonly loadingService = inject(LoadingService);
+  private readonly eventsService = inject(EventsRestService);
+  private readonly coursesService = inject(CoursesRestService);
+  private readonly subscriptionsService = inject(SubscriptionsRestService);
+  private readonly personsService = inject(PersonsRestService);
+  private readonly apprenticeshipContractsService = inject(
     ApprenticeshipContractsRestService,
   );
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private reportsService = inject(ReportsService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly reportsService = inject(ReportsService);
 
-  eventId$ = combineLatest([
+  private readonly eventId$ = combineLatest([
     this.route.paramMap,
     this.route.parent?.paramMap ?? of(null),
   ]).pipe(
@@ -88,44 +88,48 @@ export class EventsStudentsStateService {
     ),
     distinctUntilChanged(),
   );
-  private eventSummary$ = this.eventId$.pipe(
+  private readonly eventSummary$ = this.eventId$.pipe(
     switchMap(this.loadEventSummary.bind(this)),
     shareReplay(1),
   );
-  private eventSummary = toLazySignal(this.eventSummary$, {
+  private readonly eventSummary = toLazySignal(this.eventSummary$, {
     initialValue: null,
   });
-  private eventTypeId = computed(
+  private readonly eventTypeId = computed(
     () => this.eventSummary()?.EventTypeId ?? null,
   );
-  private studentEntries = toLazySignal(this.loadStudentEntries(), {
+  private readonly studentEntries = toLazySignal(this.loadStudentEntries(), {
     initialValue: null,
   });
 
-  isStudyCourse = computed(() => this.eventTypeId() === STUDY_COURSE_TYPE_ID);
+  readonly isStudyCourse = computed(
+    () => this.eventTypeId() === STUDY_COURSE_TYPE_ID,
+  );
 
-  loading = toSignal(this.loadingService.loading(PAGE_LOADING_CONTEXT));
-  title = computed(() => this.getTitle(this.studentEntries()));
-  multipleStudyClasses = computed(
+  readonly loading = toSignal(
+    this.loadingService.loading(PAGE_LOADING_CONTEXT),
+  );
+  readonly title = computed(() => this.getTitle(this.studentEntries()));
+  readonly multipleStudyClasses = computed(
     () => (this.studentEntries()?.studyClasses?.length ?? 0) > 1,
   );
-  searchTerm = signal("");
-  sortCriteria = signal<SortCriteria<SortKey>>({
+  readonly searchTerm = signal("");
+  readonly sortCriteria = signal<SortCriteria<SortKey>>({
     primarySortKey: "registrationDate",
     ascending: false,
   });
-  entries = computed(() => this.studentEntries()?.entries ?? []);
-  sortedEntries = computed(() =>
+  readonly entries = computed(() => this.studentEntries()?.entries ?? []);
+  readonly sortedEntries = computed(() =>
     this.sortStudentEntries(this.entries(), this.sortCriteria()),
   );
-  filteredEntries = computed(() =>
+  readonly filteredEntries = computed(() =>
     searchEntries(
       this.sortedEntries(),
       ["name", "status", "company", "studyClass"],
       this.searchTerm(),
     ),
   );
-  mailtoLink = computed(() =>
+  readonly mailtoLink = computed(() =>
     this.getMailtoLink(this.eventTypeId(), this.entries()),
   );
 

@@ -51,9 +51,9 @@ export type SubscriptionDetailImportEntry = ImportEntry<
   providedIn: "root",
 })
 export class ImportValidateSubscriptionDetailsService {
-  private eventsService = inject(EventsRestService);
-  private personsService = inject(PersonsRestService);
-  private subscriptionsService = inject(SubscriptionsRestService);
+  private readonly eventsService = inject(EventsRestService);
+  private readonly personsService = inject(PersonsRestService);
+  private readonly subscriptionsService = inject(SubscriptionsRestService);
 
   async fetchAndValidate(
     parsedEntries: ReadonlyArray<SubscriptionDetailEntry>,

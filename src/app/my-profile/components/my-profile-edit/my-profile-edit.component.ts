@@ -39,32 +39,41 @@ import { MyProfileService } from "../../services/my-profile.service";
   ],
 })
 export class MyProfileEditComponent {
-  private fb = inject(UntypedFormBuilder);
-  private router = inject(Router);
-  private toastService = inject(ToastService);
-  private translate = inject(TranslateService);
-  private profileService = inject(MyProfileService);
-  private personsService = inject(PersonsRestService);
+  private readonly fb = inject(UntypedFormBuilder);
+  private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
+  private readonly profileService = inject(MyProfileService);
+  private readonly personsService = inject(PersonsRestService);
 
-  person = toSignal(this.profileService.person$, { initialValue: null });
-  formGroup = computed(() => this.createFormGroup(this.person()));
-  formGroup$ = toObservable(this.formGroup).pipe(filter(notNull));
+  protected readonly person = toSignal(this.profileService.person$, {
+    initialValue: null,
+  });
+  protected readonly formGroup = computed(() =>
+    this.createFormGroup(this.person()),
+  );
+  private readonly formGroup$ = toObservable(this.formGroup).pipe(
+    filter(notNull),
+  );
 
-  saving$ = new BehaviorSubject(false);
-  private submitted$ = new BehaviorSubject(false);
+  protected readonly saving$ = new BehaviorSubject(false);
+  private readonly submitted$ = new BehaviorSubject(false);
 
-  formErrors$ = getValidationErrors(this.formGroup$, this.submitted$);
-  email2Errors$ = getValidationErrors(
+  protected readonly formErrors$ = getValidationErrors(
+    this.formGroup$,
+    this.submitted$,
+  );
+  protected readonly email2Errors$ = getValidationErrors(
     this.formGroup$,
     this.submitted$,
     "email2",
   );
 
-  cancel(): void {
+  protected cancel(): void {
     this.navigateBack();
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.submitted$.next(true);
     const formGroup = this.formGroup();
     if (formGroup?.valid) {

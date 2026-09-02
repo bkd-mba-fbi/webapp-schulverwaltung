@@ -13,7 +13,7 @@ import { getIdsGroupedByPersonAndPresenceType } from "src/app/shared/utils/lesso
 export class ConfirmAbsencesSelectionService extends SelectionService<
   OpenAbsencesEntry | LessonPresence
 > {
-  private settings = inject<Settings>(SETTINGS);
+  private readonly settings = inject<Settings>(SETTINGS);
 
   selectedIds$ = this.selection$.pipe(
     map(getEntriesByType),

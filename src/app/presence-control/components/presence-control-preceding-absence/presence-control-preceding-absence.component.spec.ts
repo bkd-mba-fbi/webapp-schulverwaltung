@@ -19,6 +19,7 @@ describe("PresenceControlPreviousAbsenceComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PresenceControlPrecedingAbsenceComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("precedingAbsences", []);
     fixture.detectChanges();
   });
 

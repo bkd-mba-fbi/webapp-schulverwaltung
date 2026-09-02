@@ -20,34 +20,38 @@ import { EvaluationGradingItemUpdateService } from "../../../services/evaluation
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationDefaultGradeDialogComponent {
-  activeModal = inject(NgbActiveModal);
-  updateService: EvaluationGradingItemUpdateService;
+  private readonly activeModal = inject(NgbActiveModal);
 
-  gradingScale = input.required<GradingScale>();
-  selectedGradeKey = signal<number | null>(null);
+  readonly updateService = input.required<EvaluationGradingItemUpdateService>();
+  readonly gradingScale = input<Option<GradingScale>>(null);
 
-  gradeOptions = computed(() =>
-    this.gradingScale().Grades.map((grade) => ({
-      Key: grade.Id,
-      Value: grade.Designation,
-    })),
+  protected readonly selectedGradeKey = signal<Option<number>>(null);
+
+  readonly gradeOptions = computed(
+    () =>
+      this.gradingScale()?.Grades.map((grade) => ({
+        Key: grade.Id,
+        Value: grade.Designation,
+      })) ?? null,
   );
 
-  selectedGrade = computed(() => {
+  protected readonly selectedGrade = computed(() => {
     const key = this.selectedGradeKey();
-    return this.gradingScale().Grades.find((grade) => grade.Id === key) ?? null;
+    return (
+      this.gradingScale()?.Grades.find((grade) => grade.Id === key) ?? null
+    );
   });
 
-  async updateGrades(): Promise<void> {
+  protected async updateGrades(): Promise<void> {
     const selectedGrade = this.selectedGrade();
     if (selectedGrade) {
-      await this.updateService
+      await this.updateService()
         .updateDefaultGrade(selectedGrade.Id)
         .then(() => this.activeModal.close());
     }
   }
 
-  cancel(): void {
+  protected cancel(): void {
     this.activeModal.dismiss();
   }
 }

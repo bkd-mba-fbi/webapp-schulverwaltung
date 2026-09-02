@@ -16,10 +16,10 @@ import { TranslatePipe } from "@ngx-translate/core";
   imports: [RouterLink, TranslatePipe],
 })
 export class MyAbsencesReportLinkComponent {
-  readonly link = viewChild.required<ElementRef<HTMLElement>>("link");
+  private readonly link = viewChild.required<ElementRef<HTMLElement>>("link");
 
   @HostListener("click", ["$event"])
-  onClick(_event: MouseEvent): void {
+  protected onClick(_event: MouseEvent): void {
     this.link().nativeElement.click();
   }
 

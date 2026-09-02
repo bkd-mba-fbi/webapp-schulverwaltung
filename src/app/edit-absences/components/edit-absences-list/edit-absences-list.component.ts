@@ -42,15 +42,17 @@ import { EditAbsencesHeaderComponent } from "../edit-absences-header/edit-absenc
 export class EditAbsencesListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  state = inject(EditAbsencesStateService);
-  selectionService = inject(EditAbsencesSelectionService);
-  private scrollPosition = inject(ScrollPositionService);
-  private route = inject(ActivatedRoute);
+  protected readonly state = inject(EditAbsencesStateService);
+  protected readonly selectionService = inject(EditAbsencesSelectionService);
+  private readonly scrollPosition = inject(ScrollPositionService);
+  private readonly route = inject(ActivatedRoute);
 
-  filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
-  profileReturnParams$ = this.state.queryParamsString$;
+  protected readonly filterFromParams$ = this.route.queryParams.pipe(
+    map(createFilterFromParams),
+  );
+  protected readonly profileReturnParams$ = this.state.queryParamsString$;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     // Load list with filter from query params
@@ -86,7 +88,7 @@ export class EditAbsencesListComponent
     this.destroy$.next();
   }
 
-  toggleAll(checked: boolean): void {
+  protected toggleAll(checked: boolean): void {
     this.state.entries$
       .pipe(take(1))
       .subscribe((entries) =>
@@ -94,13 +96,16 @@ export class EditAbsencesListComponent
       );
   }
 
-  onCheckboxCellClick(event: Event, checkbox: HTMLInputElement): void {
+  protected onCheckboxCellClick(
+    event: Event,
+    checkbox: HTMLInputElement,
+  ): void {
     if (event.target !== checkbox) {
       checkbox.click();
     }
   }
 
-  onScroll(): void {
+  protected onScroll(): void {
     this.state.nextPage();
   }
 }

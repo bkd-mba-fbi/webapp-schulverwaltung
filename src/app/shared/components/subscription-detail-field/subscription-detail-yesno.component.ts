@@ -82,24 +82,28 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailYesNoComponent {
-  detail = input.required<SubscriptionDetail>();
-  id = input.required<string>();
-  layout = input.required<"vertical" | "horizontal">();
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly id = input.required<string>();
+  readonly layout = input.required<"vertical" | "horizontal">();
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  readonly = computed(() => this.detail().VssInternet === "R");
-  yesAndNo = computed(
+  protected readonly readonly = computed(
+    () => this.detail().VssInternet === "R",
+  );
+  protected readonly yesAndNo = computed(
     () => this.detail().VssTypeId === SubscriptionDetailType.YesNo,
   );
-  asRadios = computed(() => this.detail().ShowAsRadioButtons);
+  protected readonly asRadios = computed(
+    () => this.detail().ShowAsRadioButtons,
+  );
 
-  onRadioChange(value: SubscriptionDetail["Value"]): void {
+  protected onRadioChange(value: SubscriptionDetail["Value"]): void {
     this.value.set(value);
     this.commit.emit(this.value() ?? null);
   }
 
-  onCheckboxToggle(checked: boolean): void {
+  protected onCheckboxToggle(checked: boolean): void {
     const value = checked ? "Ja" : this.yesAndNo() ? "Nein" : null;
 
     this.value.set(value);

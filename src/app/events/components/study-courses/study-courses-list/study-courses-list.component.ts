@@ -20,5 +20,5 @@ import { StudyCoursesStateService } from "../../../services/study-courses-state.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudyCoursesListComponent {
-  state = inject(StudyCoursesStateService);
+  protected readonly state = inject(StudyCoursesStateService);
 }

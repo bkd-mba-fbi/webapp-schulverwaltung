@@ -6,7 +6,7 @@ import DOMPurify from "dompurify";
   name: "bkdSafeHtml",
 })
 export class SafeHtmlPipe implements PipeTransform {
-  private sanitizer = inject(DomSanitizer);
+  private readonly sanitizer = inject(DomSanitizer);
 
   transform(value: Option<string>): SafeHtml {
     if (!value) return "";

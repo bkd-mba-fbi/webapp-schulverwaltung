@@ -17,13 +17,13 @@ import { AvatarService } from "../../services/avatar.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
-  private avatarService = inject(AvatarService);
+  private readonly avatarService = inject(AvatarService);
 
-  studentId = input.required<number>();
-  link = input<RouterLink["routerLink"]>();
-  linkParams = input<Params | undefined>();
+  readonly studentId = input.required<number>();
+  readonly link = input<RouterLink["routerLink"]>();
+  readonly linkParams = input<Params>();
 
-  avatarStyles = computed<Dict<string>>(() =>
+  readonly avatarStyles = computed<Dict<string>>(() =>
     this.buildAvatarStyles(this.studentId()),
   );
 

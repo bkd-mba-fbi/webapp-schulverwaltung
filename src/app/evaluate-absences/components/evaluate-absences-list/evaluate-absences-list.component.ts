@@ -54,16 +54,16 @@ interface Column {
   ],
 })
 export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
-  state = inject(EvaluateAbsencesStateService);
-  private scrollPosition = inject(ScrollPositionService);
-  private route = inject(ActivatedRoute);
-  private presenceTypesService = inject(PresenceTypesService);
-  private reportsService = inject(ReportsService);
-  private lessonPresencesService = inject(LessonPresencesRestService);
+  protected readonly state = inject(EvaluateAbsencesStateService);
+  private readonly scrollPosition = inject(ScrollPositionService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly presenceTypesService = inject(PresenceTypesService);
+  private readonly reportsService = inject(ReportsService);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
 
-  reports$ = this.loadReports();
+  protected readonly reports$ = this.loadReports();
 
-  columns: ReadonlyArray<Column> = [
+  protected columns: ReadonlyArray<Column> = [
     { key: "StudentFullName", label: "student" },
     { key: "TotalAbsences", label: "total" },
     { key: "TotalAbsencesValidExcuse", label: "valid-excuse" },
@@ -72,8 +72,10 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     { key: "TotalIncidents", label: "incident" },
   ];
 
-  filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
-  profileReturnParams$ = this.state.queryParamsString$;
+  protected readonly filterFromParams$ = this.route.queryParams.pipe(
+    map(createFilterFromParams),
+  );
+  protected readonly profileReturnParams$ = this.state.queryParamsString$;
 
   ngOnInit(): void {
     this.filterFromParams$
@@ -95,7 +97,7 @@ export class EvaluateAbsencesListComponent implements OnInit, AfterViewInit {
     this.scrollPosition.restore();
   }
 
-  onScroll(): void {
+  protected onScroll(): void {
     this.state.nextPage();
   }
 

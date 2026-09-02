@@ -33,12 +33,14 @@ const WITH_RATINGS_SEARCH_FIELDS: ReadonlyArray<keyof EventEntry> = [
   ],
 })
 export class EventsListComponent {
-  state = inject(EventsStateService);
-  private storage = inject(StorageService);
+  protected readonly state = inject(EventsStateService);
+  private readonly storage = inject(StorageService);
 
-  withRatings = input(true);
+  readonly withRatings = input(true);
 
-  entries = toSignal(this.loadEntries(), { initialValue: [] });
+  protected readonly entries = toSignal(this.loadEntries(), {
+    initialValue: [],
+  });
 
   constructor() {
     this.state.setRoles(this.storage.getPayload()?.roles ?? null);

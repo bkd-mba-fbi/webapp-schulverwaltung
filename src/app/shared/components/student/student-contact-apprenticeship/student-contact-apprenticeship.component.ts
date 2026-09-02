@@ -21,12 +21,12 @@ import { Apprenticeship } from "../../../services/student-profile.service";
   imports: [DatePipe, RouterLink, TranslatePipe, AddSpacePipe, PersonEmailPipe],
 })
 export class StudentContactApprenticeshipComponent {
-  apprenticeship = input.required<Apprenticeship>();
-  student = input.required<Person>();
-  instructorEmailEditLink = input<Option<string>>(null);
-  instructorEmailEditLabel = input<Option<string>>(null);
+  readonly apprenticeship = input.required<Apprenticeship>();
+  readonly student = input.required<Person>();
+  readonly instructorEmailEditLink = input<Option<string>>(null);
+  readonly instructorEmailEditLabel = input<Option<string>>(null);
 
-  instructorEmail = computed(() => {
+  protected readonly instructorEmail = computed(() => {
     const email = this.student().Custom1;
     return isEmail(email) ? email : "";
   });

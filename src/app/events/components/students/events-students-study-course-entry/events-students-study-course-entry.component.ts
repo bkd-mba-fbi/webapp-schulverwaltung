@@ -16,14 +16,14 @@ import { StudentEntry } from "src/app/events/services/events-students-state.serv
   styleUrl: "./events-students-study-course-entry.component.scss",
 })
 export class EventsStudentsStudyCourseEntryComponent {
-  entry = input.required<StudentEntry>();
-  returnLink = input<Option<string>>(null);
+  readonly entry = input.required<StudentEntry>();
+  readonly returnLink = input<Option<string>>(null);
 
-  link = computed<RouterLink["routerLink"]>(() => [
+  protected readonly link = computed<RouterLink["routerLink"]>(() => [
     "study-course-student",
     this.entry().id,
   ]);
-  linkParams = computed<Params>(() => {
+  protected readonly linkParams = computed<Params>(() => {
     const returnlink = this.returnLink();
     return returnlink
       ? {

@@ -27,20 +27,29 @@ import { StudentNavigationComponent } from "../student-navigation/student-naviga
   providers: [StudentGradesService, StudentDossierFilterService],
 })
 export class StudentComponent {
-  private state = inject(StudentStateService);
-  private dossierGradesService = inject(StudentGradesService);
+  private readonly state = inject(StudentStateService);
+  private readonly dossierGradesService = inject(StudentGradesService);
 
-  loading = toSignal(this.state.loadingStudent$, {
+  protected readonly loading = toSignal(this.state.loadingStudent$, {
     requireSync: true,
   });
-  studentId = toSignal(this.state.studentId$, { initialValue: null });
-  student = toSignal(this.state.student$, { initialValue: null });
-
-  dossierPage = this.state.dossierPage;
-  reports = toSignal(this.dossierGradesService.testReports$, {
-    initialValue: [] as ReadonlyArray<ReportInfo>,
+  protected readonly studentId = toSignal(this.state.studentId$, {
+    initialValue: null,
+  });
+  protected readonly student = toSignal(this.state.student$, {
+    initialValue: null,
   });
 
-  backlinkQueryParams = toSignal(this.state.backlinkQueryParams$);
-  returnParams = toSignal(this.state.returnParams$);
+  protected readonly dossierPage = this.state.dossierPage;
+  protected readonly reports = toSignal(
+    this.dossierGradesService.testReports$,
+    {
+      initialValue: [] as ReadonlyArray<ReportInfo>,
+    },
+  );
+
+  protected readonly backlinkQueryParams = toSignal(
+    this.state.backlinkQueryParams$,
+  );
+  protected readonly returnParams = toSignal(this.state.returnParams$);
 }

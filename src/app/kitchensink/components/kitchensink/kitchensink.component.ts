@@ -19,7 +19,9 @@ import { SubscriptionDetailFieldComponent } from "../../../shared/components/sub
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KitchensinkComponent {
-  subscriptionDetails: ReadonlyArray<Partial<SubscriptionDetail>> = [
+  protected readonly subscriptionDetails: ReadonlyArray<
+    Partial<SubscriptionDetail>
+  > = [
     {
       VssDesignation: "Heading",
       VssStyle: "HE",
@@ -132,19 +134,24 @@ export class KitchensinkComponent {
     ...detail,
     Id: String(i + 1),
   }));
-  subscriptionDetailsValues = this.getSubscriptionDetailValueSignals();
+  protected readonly subscriptionDetailsValues =
+    this.getSubscriptionDetailValueSignals();
 
-  subscriptionDetailsReadonly = this.subscriptionDetails.map((detail) => ({
-    ...detail,
-    VssInternet: "R",
-  }));
+  protected readonly subscriptionDetailsReadonly = this.subscriptionDetails.map(
+    (detail) => ({
+      ...detail,
+      VssInternet: "R",
+    }),
+  );
 
-  subscriptionDetailsRequired = this.subscriptionDetails.map((detail) => ({
-    ...detail,
-    VssInternet: "M",
-  }));
+  protected readonly subscriptionDetailsRequired = this.subscriptionDetails.map(
+    (detail) => ({
+      ...detail,
+      VssInternet: "M",
+    }),
+  );
 
-  build(detail: Partial<SubscriptionDetail>): SubscriptionDetail {
+  protected build(detail: Partial<SubscriptionDetail>): SubscriptionDetail {
     return {
       Id: "1",
       SubscriptionId: 1,

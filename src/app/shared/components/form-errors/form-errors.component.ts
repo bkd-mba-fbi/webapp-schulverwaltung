@@ -13,6 +13,6 @@ export class FormErrorsComponent<
   TValue,
   TKey extends string | number = string | number,
 > {
-  field = input.required<FieldState<TValue, TKey>>();
-  submitted = input.required<boolean>();
+  readonly field = input.required<FieldState<TValue, TKey>>();
+  readonly submitted = input.required<boolean>();
 }

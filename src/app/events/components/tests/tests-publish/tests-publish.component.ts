@@ -1,4 +1,4 @@
-import { Component, Input, inject } from "@angular/core";
+import { Component, inject, input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
 import { Test } from "src/app/shared/models/test.model";
@@ -9,10 +9,10 @@ import { Test } from "src/app/shared/models/test.model";
     <div class="modal-body">
       <p data-testid="confirmation-message">
         {{
-          (test.IsPublished
+          (test().IsPublished
             ? "tests.publishing.unpublish"
             : "tests.publishing.publish"
-          ) | translate: { designation: test.Designation }
+          ) | translate: { designation: test().Designation }
         }}
       </p>
     </div>
@@ -40,7 +40,7 @@ import { Test } from "src/app/shared/models/test.model";
   imports: [TranslatePipe],
 })
 export class TestsPublishComponent {
-  activeModal = inject(NgbActiveModal);
+  readonly activeModal = inject(NgbActiveModal);
 
-  @Input() test: Test;
+  readonly test = input.required<Test>();
 }

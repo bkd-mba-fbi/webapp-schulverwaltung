@@ -22,9 +22,11 @@ import { EventEntry } from "../../../services/events-state.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsListEntryComponent {
-  event = input.required<EventEntry>();
-  withRatings = input<boolean>(true);
-  withDate = input<boolean>(true);
+  readonly event = input.required<EventEntry>();
+  readonly withRatings = input<boolean>(true);
+  readonly withDate = input<boolean>(true);
 
-  link = computed(() => convertLink(this.event().detailLink));
+  protected readonly link = computed(() =>
+    convertLink(this.event().detailLink),
+  );
 }

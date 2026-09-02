@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Grade, GradingScale } from "src/app/shared/models/grading-scale.model";
 import { Test } from "src/app/shared/models/test.model";
 import { buildResult, buildTest } from "src/spec-builders";
-import { buildTestModuleMetadata, changeInput } from "src/spec-helpers";
+import { buildTestModuleMetadata } from "src/spec-helpers";
 import {
   expectElementPresent,
   expectNotInTheDocument,
@@ -45,9 +45,8 @@ describe("StudentGradesTestComponent", () => {
 
     test = buildTest(1, testId, []);
     test.Date = new Date("2022-02-22T00:00:00");
-    component.studentId = studentId;
-
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("studentId", studentId);
+    fixture.componentRef.setInput("test", test);
     fixture.detectChanges();
   });
 
@@ -76,53 +75,47 @@ describe("StudentGradesTestComponent", () => {
   });
 
   it("should show the teacher's name", () => {
-    test.Owner = "Stolz Zusanna";
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("test", { ...test, Owner: "Stolz Zusanna" });
 
     fixture.detectChanges();
     expectText(debugElement, "test-teacher", "Stolz Zusanna");
   });
 
   it("should show the state of a published test", () => {
-    test.IsPublished = true;
-    component.isEditable = true;
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("isEditable", true);
+    fixture.componentRef.setInput("test", { ...test, IsPublished: true });
 
     fixture.detectChanges();
     expectText(debugElement, "test-status", "tests.published");
   });
 
   it("should show the state of a test not published yet", () => {
-    test.IsPublished = false;
-    component.isEditable = true;
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("isEditable", true);
+    fixture.componentRef.setInput("test", { ...test, IsPublished: false });
 
     fixture.detectChanges();
     expectText(debugElement, "test-status", "tests.not-published");
   });
 
   it("should hide the state of a test if isEditable flag is false", () => {
-    test.IsPublished = false;
-    component.isEditable = false;
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("isEditable", false);
+    fixture.componentRef.setInput("test", { ...test, IsPublished: false });
 
     fixture.detectChanges();
     expectNotInTheDocument(debugElement, "test-status");
   });
 
   it("should hide edit icon if teacher is not the owner", () => {
-    test.IsOwner = false;
-    component.isEditable = true;
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("isEditable", true);
+    fixture.componentRef.setInput("test", { ...test, IsOwner: false });
 
     fixture.detectChanges();
     expectNotInTheDocument(debugElement, "test-grade-edit-icon");
   });
 
   it("should show edit icon if teacher is the owner", () => {
-    test.IsOwner = true;
-    component.isEditable = true;
-    changeInput(component, "test", test);
+    fixture.componentRef.setInput("isEditable", true);
+    fixture.componentRef.setInput("test", { ...test, IsOwner: true });
 
     fixture.detectChanges();
     expectElementPresent(fixture.debugElement, "test-grade-edit-icon");
@@ -130,15 +123,7 @@ describe("StudentGradesTestComponent", () => {
 
   describe("grades and points", () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(StudentGradesTestComponent);
-      debugElement = fixture.debugElement;
-      component = fixture.componentInstance;
-
-      const result = buildResult(123, studentId);
-      result.GradeId = 1004;
-      test.Results = [result, buildResult(123, 998)];
-
-      component.studentId = studentId;
+      fixture.componentRef.setInput("studentId", studentId);
       const gradingScale = {
         Grades: [
           { Id: 1001, Value: 1, Designation: "1" } as unknown as Grade,
@@ -149,9 +134,14 @@ describe("StudentGradesTestComponent", () => {
           { Id: 1006, Value: 6, Designation: "6" } as unknown as Grade,
         ],
       } as unknown as GradingScale;
-      component.gradingScale = gradingScale;
+      fixture.componentRef.setInput("gradingScale", gradingScale);
 
-      changeInput(component, "test", test);
+      const result = buildResult(123, studentId);
+      result.GradeId = 1004;
+      fixture.componentRef.setInput("test", {
+        ...test,
+        Results: [result, buildResult(123, 998)],
+      });
       fixture.detectChanges();
     });
 
@@ -166,7 +156,7 @@ describe("StudentGradesTestComponent", () => {
       test.IsPointGrading = true;
       test.IsPublished = true;
       test.MaxPoints = 27;
-      changeInput(component, "test", test);
+      fixture.componentRef.setInput("test", test);
       fixture.detectChanges();
       expectText(
         debugElement,

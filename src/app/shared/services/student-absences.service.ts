@@ -18,11 +18,11 @@ export interface StudentProfileAbsencesCounts {
 
 @Injectable()
 export class StudentAbsencesService {
-  private settings = inject<Settings>(SETTINGS);
-  private lessonPresencesService = inject(LessonPresencesRestService);
-  private presenceTypesService = inject(PresenceTypesService);
+  private readonly settings = inject<Settings>(SETTINGS);
+  private readonly lessonPresencesService = inject(LessonPresencesRestService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
 
-  private studentId$ = new ReplaySubject<number>(1);
+  private readonly studentId$ = new ReplaySubject<number>(1);
 
   openAbsences$ = this.getAbsences(this.loadOpenAbsences.bind(this));
   excusedAbsences$ = this.getAbsences(this.loadExcusedAbsences.bind(this));
@@ -30,7 +30,7 @@ export class StudentAbsencesService {
   incidents$ = this.getAbsences(this.loadIncidents.bind(this));
   halfDays$ = this.getAbsences(this.loadHalfDays.bind(this));
 
-  counts$ = toSignal(this.getCounts(), { initialValue: null });
+  readonly counts$ = toSignal(this.getCounts(), { initialValue: null });
 
   setStudentId(id: number): void {
     this.studentId$.next(id);

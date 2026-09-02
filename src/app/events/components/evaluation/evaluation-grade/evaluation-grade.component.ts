@@ -3,7 +3,7 @@ import {
   Component,
   OnDestroy,
   input,
-  output,
+  model,
 } from "@angular/core";
 import { Subject } from "rxjs";
 import { debounceTime, takeUntil } from "rxjs/operators";
@@ -20,19 +20,17 @@ const DEBOUNCE_TIME = 1000; // 1 second
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EvaluationGradeComponent implements OnDestroy {
-  options = input.required<ReadonlyArray<DropDownItem>>();
-  value = input.required<Option<number>>();
+  readonly options = input.required<ReadonlyArray<DropDownItem>>();
+  readonly value = model<Option<number>>(null);
 
-  valueChange = output<Option<number>>();
-
-  private valueSubject = new Subject<Option<number>>();
-  private destroy$ = new Subject<void>();
+  private readonly valueSubject = new Subject<Option<number>>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor() {
     this.valueSubject
       .pipe(debounceTime(DEBOUNCE_TIME), takeUntil(this.destroy$))
       .subscribe((value) => {
-        this.valueChange.emit(value);
+        this.value.set(value);
       });
   }
 

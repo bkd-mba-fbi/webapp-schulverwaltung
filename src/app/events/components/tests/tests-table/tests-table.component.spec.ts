@@ -24,7 +24,6 @@ import { TestsTableComponent } from "./tests-table.component";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe("TestsTableComponent", () => {
-  let component: TestsTableComponent;
   let fixture: ComponentFixture<TestsTableComponent>;
   let element: HTMLElement;
 
@@ -142,7 +141,6 @@ describe("TestsTableComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestsTableComponent);
-    component = fixture.componentInstance;
     element = fixture.debugElement.nativeElement;
   });
 
@@ -281,7 +279,7 @@ describe("TestsTableComponent", () => {
       });
 
       it("is visible on mobile if no test is selected and tests are available", () => {
-        component.selectedTest = undefined;
+        fixture.componentRef.setInput("selectedTest", null);
         fixture.detectChanges();
 
         const button = getAverageFinalGradeButton();
@@ -290,7 +288,7 @@ describe("TestsTableComponent", () => {
       });
 
       it("is visible on mobile if no test is selected and no tests are available", () => {
-        component.selectedTest = undefined;
+        fixture.componentRef.setInput("selectedTest", null);
         tests$.next([]);
         hasTests$.next(false);
         fixture.detectChanges();
@@ -301,7 +299,7 @@ describe("TestsTableComponent", () => {
       });
 
       it("is not visible on mobile if test is selected and tests are available", () => {
-        component.selectedTest = gradeTest;
+        fixture.componentRef.setInput("selectedTest", gradeTest);
         fixture.detectChanges();
 
         const button = getAverageFinalGradeButton();

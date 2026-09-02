@@ -7,7 +7,7 @@ import { Test } from "src/app/shared/models/test.model";
   standalone: true,
 })
 export class TestSummaryShortPipe implements PipeTransform {
-  private translate = inject(TranslateService);
+  private readonly translate = inject(TranslateService);
 
   transform(test: Test): string {
     return `${test.Weight} (${test.WeightPercent}%)${this.getPoints(test)}`;

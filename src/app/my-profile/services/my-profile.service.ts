@@ -7,10 +7,10 @@ import { Person } from "../../shared/models/person.model";
 
 @Injectable()
 export class MyProfileService {
-  private storageService = inject(StorageService);
-  private profileService = inject(StudentProfileService);
+  private readonly storageService = inject(StorageService);
+  private readonly profileService = inject(StudentProfileService);
 
-  private reloadStudent$ = new BehaviorSubject<void>(undefined);
+  private readonly reloadStudent$ = new BehaviorSubject<void>(undefined);
 
   person$ = this.reloadStudent$.pipe(
     switchMap(() => this.loadPerson()),

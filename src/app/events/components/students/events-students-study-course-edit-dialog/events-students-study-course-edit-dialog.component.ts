@@ -24,19 +24,20 @@ import { StatusProcessesRestService } from "src/app/shared/services/status-proce
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsStudentsStudyCourseEditDialogComponent {
-  private statusProcessesService = inject(StatusProcessesRestService);
-  private loadingService = inject(LoadingService);
-  activeModal = inject(NgbActiveModal);
+  private readonly statusProcessesService = inject(StatusProcessesRestService);
+  private readonly loadingService = inject(LoadingService);
+  protected readonly activeModal = inject(NgbActiveModal);
 
-  currentStatus = input.required<Status>();
-  subscriptionId = input.required<number>();
-  personId = input.required<number>();
+  readonly currentStatus = input.required<Status>();
+  readonly subscriptionId = input.required<number>();
 
-  loading = toSignal(this.loadingService.loading$, { initialValue: true });
+  protected readonly loading = toSignal(this.loadingService.loading$, {
+    initialValue: true,
+  });
 
-  statusId = computed(() => this.currentStatus().IdStatus);
+  private readonly statusId = computed(() => this.currentStatus().IdStatus);
 
-  statusList = toSignal(
+  readonly statusList = toSignal(
     toObservable(this.statusId).pipe(
       distinctUntilChanged(),
       switchMap((statusId) =>
@@ -50,19 +51,19 @@ export class EventsStudentsStudyCourseEditDialogComponent {
     ),
   );
 
-  canUpdate = computed(() =>
+  protected readonly canUpdate = computed(() =>
     this.selected().IdStatus
       ? this.selected().IdStatus !== this.statusId()
       : false,
   );
 
-  selected = signal<Status>({} as Status);
+  protected readonly selected = signal<Status>({} as Status);
 
-  onSelectionChange(option: Status): void {
+  protected onSelectionChange(option: Status): void {
     this.selected.set(option);
   }
 
-  cancel(): void {
+  private cancel(): void {
     this.activeModal.dismiss();
   }
 }

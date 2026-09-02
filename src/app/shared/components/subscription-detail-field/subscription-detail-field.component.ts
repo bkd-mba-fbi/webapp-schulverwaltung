@@ -139,32 +139,32 @@ import { SubscriptionDetailYesNoComponent } from "./subscription-detail-yesno.co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubscriptionDetailFieldComponent {
-  detail = input.required<SubscriptionDetail>();
-  hideLabel = input(false);
-  layout = input<"vertical" | "horizontal">("vertical");
-  value = model<SubscriptionDetail["Value"]>();
-  commit = output<SubscriptionDetail["Value"]>();
+  readonly detail = input.required<SubscriptionDetail>();
+  readonly hideLabel = input(false);
+  readonly layout = input<"vertical" | "horizontal">("vertical");
+  readonly value = model<SubscriptionDetail["Value"]>();
+  readonly commit = output<SubscriptionDetail["Value"]>();
 
-  isTextField = computed(
+  protected readonly isTextField = computed(
     () =>
       this.detail()?.VssTypeId === SubscriptionDetailType.ShortText ||
       this.detail()?.VssTypeId === SubscriptionDetailType.Int ||
       this.detail()?.VssTypeId === SubscriptionDetailType.Currency,
   );
-  isTextarea = computed(
+  protected readonly isTextarea = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Text,
   );
-  isYesNo = computed(
+  protected readonly isYesNo = computed(
     () =>
       this.detail()?.VssTypeId === SubscriptionDetailType.YesNo ||
       this.detail()?.VssTypeId === SubscriptionDetailType.Yes,
   );
-  isDate = computed(
+  protected readonly isDate = computed(
     () => this.detail()?.VssTypeId === SubscriptionDetailType.Date,
   );
 
   @HostBinding("class.horizontal")
-  get horizontalClass() {
+  protected get horizontalClass() {
     return this.layout() === "horizontal";
   }
 }

@@ -72,21 +72,22 @@ export type TestResultPointsUpdate = {
 
 @Injectable()
 export class TestStateService {
-  private coursesRestService = inject(CoursesRestService);
-  private gradingScalesRestService = inject(GradingScalesRestService);
-  private gradingsRestService = inject(GradingsRestService);
-  private loadingService = inject(LoadingService);
-  private sortService = inject<SortService<StudentGradesSortKey>>(SortService);
+  private readonly coursesRestService = inject(CoursesRestService);
+  private readonly gradingScalesRestService = inject(GradingScalesRestService);
+  private readonly gradingsRestService = inject(GradingsRestService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly sortService =
+    inject<SortService<StudentGradesSortKey>>(SortService);
 
-  private action$ = new ReplaySubject<TestsAction>(1);
+  private readonly action$ = new ReplaySubject<TestsAction>(1);
 
   loading$ = this.loadingService.loading$;
 
-  private _courseId$ = new ReplaySubject<number>(1);
+  private readonly _courseId$ = new ReplaySubject<number>(1);
 
   courseId$ = this._courseId$.asObservable();
 
-  private fetchedCourse$ = this._courseId$.pipe(
+  private readonly fetchedCourse$ = this._courseId$.pipe(
     switchMap((courseId) =>
       this.loadingService.load(
         this.coursesRestService.getCourseWithTests(courseId),
@@ -118,12 +119,12 @@ export class TestStateService {
   );
   hasTests$ = this.tests$.pipe(map((tests) => tests.length > 0));
 
-  private filterSubject$ = new BehaviorSubject<TestsFilter>(
+  private readonly filterSubject$ = new BehaviorSubject<TestsFilter>(
     INITIAL_TESTS_FILTER,
   );
   filter$ = this.filterSubject$.asObservable();
 
-  private expandedHeaderSubject$ = new BehaviorSubject<boolean>(false);
+  private readonly expandedHeaderSubject$ = new BehaviorSubject<boolean>(false);
   expandedHeader$ = this.expandedHeaderSubject$.asObservable();
 
   filteredTests$ = combineLatest([this.tests$, this.filter$]).pipe(
@@ -136,7 +137,7 @@ export class TestStateService {
     ),
   );
 
-  sortCriteria$ = this.sortService.sortCriteria$;
+  private readonly sortCriteria$ = this.sortService.sortCriteria$;
   sortCriteria = this.sortService.sortCriteria;
 
   studentGrades$ = combineLatest([
@@ -147,7 +148,7 @@ export class TestStateService {
 
   canSetFinalGrade$ = this.course$.pipe(map(canSetFinalGrade));
 
-  private gradingScaleIds$ = this.course$.pipe(
+  private readonly gradingScaleIds$ = this.course$.pipe(
     map((course: Course) =>
       uniq(
         [
@@ -160,13 +161,13 @@ export class TestStateService {
     shareReplay(1),
   );
 
-  private gradingScales$ = this.gradingScaleIds$.pipe(
+  private readonly gradingScales$ = this.gradingScaleIds$.pipe(
     switchMap((ids) => this.gradingScalesRestService.getListForIds(ids)),
     shareReplay(1),
   );
 
-  private UNDEFINED_GRADINGSCALE_ID = -1;
-  private gradingScalesOptions$: Observable<GradingScaleOptions> =
+  private readonly UNDEFINED_GRADINGSCALE_ID = -1;
+  private readonly gradingScalesOptions$: Observable<GradingScaleOptions> =
     this.gradingScales$.pipe(
       map((gradingScales) =>
         gradingScales
@@ -232,7 +233,7 @@ export class TestStateService {
     );
   }
 
-  toStudentGrades(
+  private toStudentGrades(
     course: Course,
     tests: ReadonlyArray<Test> = [],
     sortCriteria: Option<SortCriteria<StudentGradesSortKey>>,

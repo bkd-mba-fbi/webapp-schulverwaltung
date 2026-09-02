@@ -15,15 +15,15 @@ import { Student } from "../../../models/student.model";
   imports: [],
 })
 export class StudentContactAddressComponent {
-  student = input.required<Student | Person>();
-  emailProperty = input<"DisplayEmail" | "Email2">("DisplayEmail");
+  readonly student = input.required<Student | Person>();
+  readonly emailProperty = input<"DisplayEmail" | "Email2">("DisplayEmail");
 
-  postalCode = computed(() => {
+  protected readonly postalCode = computed(() => {
     const student = this.student();
     return "PostalCode" in student ? student.PostalCode : student.Zip;
   });
 
-  email = computed(() => {
+  protected readonly email = computed(() => {
     const student = this.student();
     if (this.emailProperty() === "Email2" && "Email2" in student) {
       return student.Email2 || null;

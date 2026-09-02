@@ -16,7 +16,6 @@ import {
   getPresenceCategoryIcon,
 } from "src/app/presence-control/models/presence-control-entry.model";
 import { isAbsent } from "src/app/presence-control/utils/presence-types";
-import { SETTINGS, Settings } from "src/app/settings";
 import { LessonPresence } from "src/app/shared/models/lesson-presence.model";
 import { PresenceType } from "src/app/shared/models/presence-type.model";
 import { PresenceTypesService } from "src/app/shared/services/presence-types.service";
@@ -50,16 +49,19 @@ import { MyAbsencesReportHeaderComponent } from "../my-absences-report-header/my
 export class MyAbsencesReportListComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  state = inject(MyAbsencesReportStateService);
-  selectionService = inject(MyAbsencesReportSelectionService);
-  private route = inject(ActivatedRoute);
-  private scrollPosition = inject(ScrollPositionService);
-  private presenceTypesService = inject(PresenceTypesService);
-  private settings = inject<Settings>(SETTINGS);
+  protected readonly state = inject(MyAbsencesReportStateService);
+  protected readonly selectionService = inject(
+    MyAbsencesReportSelectionService,
+  );
+  private readonly route = inject(ActivatedRoute);
+  private readonly scrollPosition = inject(ScrollPositionService);
+  private readonly presenceTypesService = inject(PresenceTypesService);
 
-  filterFromParams$ = this.route.queryParams.pipe(map(createFilterFromParams));
+  protected readonly filterFromParams$ = this.route.queryParams.pipe(
+    map(createFilterFromParams),
+  );
 
-  allSelected$ = combineLatest([
+  protected readonly allSelected$ = combineLatest([
     this.selectionService.selection$,
     this.state.entries$.pipe(
       switchMap((entries) =>
@@ -74,7 +76,7 @@ export class MyAbsencesReportListComponent
     ),
   );
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     // Load list with filter from query params
@@ -96,7 +98,7 @@ export class MyAbsencesReportListComponent
     this.destroy$.next();
   }
 
-  getPresenceCategory(
+  protected getPresenceCategory(
     lessonPresence: LessonPresence,
   ): Observable<Option<{ category: PresenceCategory; icon: string }>> {
     return this.getPresenceType(lessonPresence).pipe(
@@ -112,7 +114,7 @@ export class MyAbsencesReportListComponent
     );
   }
 
-  getPresenceTypeDesignation(
+  protected getPresenceTypeDesignation(
     lessonPresence: LessonPresence,
   ): Observable<Option<string>> {
     return this.presenceTypesService.displayedTypes$.pipe(
@@ -126,7 +128,7 @@ export class MyAbsencesReportListComponent
     );
   }
 
-  toggleAll(checked: boolean): void {
+  protected toggleAll(checked: boolean): void {
     combineLatest([
       this.state.entries$.pipe(take(1)),
       this.presenceTypesService.presenceTypes$.pipe(take(1)),
@@ -145,7 +147,7 @@ export class MyAbsencesReportListComponent
     });
   }
 
-  onRowClick(event: Event, row: HTMLElement): void {
+  protected onRowClick(event: Event, row: HTMLElement): void {
     const checkbox = row.querySelector('input[type="checkbox"]');
     if (
       checkbox &&

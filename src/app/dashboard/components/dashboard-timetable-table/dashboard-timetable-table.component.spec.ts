@@ -27,6 +27,7 @@ describe("DashboardTimetableTableComponent", () => {
 
     fixture = TestBed.createComponent(DashboardTimetableTableComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("entries", []);
     fixture.detectChanges();
   });
 

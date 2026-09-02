@@ -38,27 +38,35 @@ import { ImportProceedUploadDialogComponent } from "../../common/import-proceed-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportValidationEmailsComponent {
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private stateService = inject(ImportStateService);
-  private validationService = inject(ImportValidateEmailsService);
-  private modalService = inject(BkdModalService);
-  private toastService = inject(ToastService);
+  private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
+  private readonly stateService = inject(ImportStateService);
+  private readonly validationService = inject(ImportValidateEmailsService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly toastService = inject(ToastService);
 
-  parsedEntries: WritableSignal<Option<ReadonlyArray<EmailEntry>>> =
-    this.stateService.parsedEntries;
-  importEntries: WritableSignal<Option<ReadonlyArray<EmailImportEntry>>> =
-    this.stateService.importEntries;
+  private readonly parsedEntries: WritableSignal<
+    Option<ReadonlyArray<EmailEntry>>
+  > = this.stateService.parsedEntries;
+  private readonly importEntries: WritableSignal<
+    Option<ReadonlyArray<EmailImportEntry>>
+  > = this.stateService.importEntries;
 
-  isValidating = computed(() => this.importEntries() === null);
+  protected readonly isValidating = computed(
+    () => this.importEntries() === null,
+  );
 
-  validEntries = computed(() => this.getEntriesByStatus("valid"));
-  validCount = computed(() => this.validEntries().length);
+  private readonly validEntries = computed(() =>
+    this.getEntriesByStatus("valid"),
+  );
+  private readonly validCount = computed(() => this.validEntries().length);
 
-  invalidEntries = computed(() => this.getEntriesByStatus("invalid"));
-  invalidCount = computed(() => this.invalidEntries().length);
+  private readonly invalidEntries = computed(() =>
+    this.getEntriesByStatus("invalid"),
+  );
+  private readonly invalidCount = computed(() => this.invalidEntries().length);
 
-  sortedEntries = computed(() => [
+  protected readonly sortedEntries = computed(() => [
     ...this.invalidEntries(),
     ...this.validEntries(),
   ]);
@@ -76,7 +84,7 @@ export class ImportValidationEmailsComponent {
       .then((entries) => this.stateService.importEntries.set(entries));
   }
 
-  proceedToUpload(): void {
+  protected proceedToUpload(): void {
     if (this.validCount() === 0) {
       this.toastService.error(
         this.translate.instant("import.validation.proceed-no-valid"),
@@ -100,7 +108,7 @@ export class ImportValidationEmailsComponent {
     );
   }
 
-  getErrorMessage(entry: EmailImportEntry): Option<string> {
+  protected getErrorMessage(entry: EmailImportEntry): Option<string> {
     if (entry.validationStatus === "invalid" && entry.validationError) {
       return this.translate.instant(
         `import.validation.errors.${entry.validationError.type}`,
@@ -131,8 +139,8 @@ export class ImportValidationEmailsComponent {
 
   private openProceedDialog(): NgbModalRef {
     const modalRef = this.modalService.open(ImportProceedUploadDialogComponent);
-    modalRef.componentInstance.invalidCount = this.invalidCount();
-    modalRef.componentInstance.validCount = this.validCount();
+    modalRef.setInput("invalidCount", this.invalidCount());
+    modalRef.setInput("validCount", this.validCount());
     return modalRef;
   }
 

@@ -1,9 +1,12 @@
+import { signal } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { BehaviorSubject, of } from "rxjs";
 import { AdditionalInformation } from "src/app/shared/models/additional-informations.model";
-import { BkdModalService } from "src/app/shared/services/bkd-modal.service";
+import {
+  BkdModalRef,
+  BkdModalService,
+} from "src/app/shared/services/bkd-modal.service";
 import { StudentDossierEditService } from "src/app/shared/services/student-dossier-edit.service";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { buildAdditionalInformation } from "src/spec-builders";
@@ -445,16 +448,22 @@ describe("StudentDossierEditComponent", () => {
 
     describe("delete", () => {
       it("opens confirmation dialog and deletes entry when confirmed", async () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const componentInstance: any = {
+          type: signal(undefined),
+        };
         const modalRef = {
-          componentInstance: {},
+          componentInstance,
           result: Promise.resolve(true),
-        } as NgbModalRef;
+          setInput: (name: string, value: unknown) =>
+            componentInstance[name]?.set(value),
+        } as unknown as BkdModalRef<unknown>;
         modalService.open.and.returnValue(modalRef);
 
         await component.delete();
 
         expect(modalService.open).toHaveBeenCalled();
-        expect(modalRef.componentInstance.type).toBe("note");
+        expect(modalRef.componentInstance.type()).toBe("note");
 
         await modalRef.result;
         await new Promise((resolve) => setTimeout(resolve, 0));

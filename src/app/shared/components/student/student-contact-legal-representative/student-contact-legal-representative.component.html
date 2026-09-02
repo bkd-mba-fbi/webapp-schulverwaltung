@@ -1,23 +1,28 @@
+@let personValue = person();
 <address class="mb-0">
-  {{ person.LastName }} {{ person.FirstName }}<br />
-  @if (person.AddressLine1) {
-    {{ person.AddressLine1 }}<br />
+  {{ personValue.LastName }} {{ personValue.FirstName }}<br />
+  @if (personValue.AddressLine1) {
+    {{ personValue.AddressLine1 }}<br />
   }
-  @if (person.AddressLine2) {
-    {{ person.AddressLine2 }}<br />
+  @if (personValue.AddressLine2) {
+    {{ personValue.AddressLine2 }}<br />
   }
-  @if (person.Zip && person.Zip) {
-    {{ person.Zip }} {{ person.Location }}<br />
+  @if (personValue.Zip && personValue.Zip) {
+    {{ personValue.Zip }} {{ personValue.Location }}<br />
   }
-  @if (person.PhonePrivate) {
-    <a href="tel:{{ person.PhonePrivate }}">{{ person.PhonePrivate }}<br /></a>
+  @if (personValue.PhonePrivate) {
+    <a href="tel:{{ personValue.PhonePrivate }}"
+      >{{ personValue.PhonePrivate }}<br
+    /></a>
   }
-  @if (person.PhoneMobile) {
-    <a href="tel:{{ person.PhoneMobile }}">{{ person.PhoneMobile }}<br /></a>
+  @if (personValue.PhoneMobile) {
+    <a href="tel:{{ personValue.PhoneMobile }}"
+      >{{ personValue.PhoneMobile }}<br
+    /></a>
   }
-  @if (person | bkdPersonEmail) {
-    <a href="mailto:{{ person | bkdPersonEmail }}">{{
-      person | bkdPersonEmail
+  @if (personValue | bkdPersonEmail) {
+    <a href="mailto:{{ personValue | bkdPersonEmail }}">{{
+      personValue | bkdPersonEmail
     }}</a>
   }
 </address>

@@ -20,19 +20,19 @@ export interface SortCriteria<T extends SortKey> {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortableHeaderComponent<TSortKey extends SortKey> {
-  label = input<string>("");
-  sortKey = input.required<TSortKey>();
-  sortCriteria = model.required<Option<SortCriteria<TSortKey>>>();
+  readonly label = input<string>("");
+  readonly sortKey = input.required<TSortKey>();
+  readonly sortCriteria = model.required<Option<SortCriteria<TSortKey>>>();
 
-  isSorted = computed(
+  protected readonly isSorted = computed(
     () => this.sortCriteria()?.primarySortKey === this.sortKey(),
   );
 
-  sortDirectionCharacter = computed(() =>
+  protected readonly sortDirectionCharacter = computed(() =>
     this.isSorted() ? (this.sortCriteria()?.ascending ? "↓" : "↑") : "",
   );
 
-  toggleSort(): void {
+  protected toggleSort(): void {
     const currentAscending = this.sortCriteria()?.ascending ?? null;
     this.sortCriteria.set({
       primarySortKey: this.sortKey(),

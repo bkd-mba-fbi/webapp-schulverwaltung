@@ -28,14 +28,16 @@ export type UploadProgress = {
   providedIn: "root",
 })
 export class ImportUploadSubscriptionDetailsService {
-  progress = signal<UploadProgress>({
+  readonly progress = signal<UploadProgress>({
     uploading: 0,
     success: 0,
     error: 0,
     total: 0,
   });
 
-  private subscriptionDetailsService = inject(SubscriptionDetailsRestService);
+  private readonly subscriptionDetailsService = inject(
+    SubscriptionDetailsRestService,
+  );
 
   async upload(
     validatedEntries: ReadonlyArray<SubscriptionDetailImportEntry>,

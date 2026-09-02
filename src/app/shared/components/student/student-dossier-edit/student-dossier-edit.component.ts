@@ -61,35 +61,42 @@ const ALL_TEACHERS_OBJECT_TYPE_ID = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEditComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private translate = inject(TranslateService);
-  private editService = inject(StudentDossierEditService);
-  private toastService = inject(ToastService);
-  private modalService = inject(BkdModalService);
-  private settings = inject<Settings>(SETTINGS);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly translate = inject(TranslateService);
+  private readonly editService = inject(StudentDossierEditService);
+  private readonly toastService = inject(ToastService);
+  private readonly modalService = inject(BkdModalService);
+  private readonly settings = inject<Settings>(SETTINGS);
 
-  acceptedFileTypes = this.settings.dossierAllowedFileTypes;
+  protected readonly acceptedFileTypes = this.settings.dossierAllowedFileTypes;
 
-  loading = toSignal(this.editService.loading$, { requireSync: true });
-  saving = signal(false);
-  studentId = toSignal(this.editService.studentId$, {
+  protected readonly loading = toSignal(this.editService.loading$, {
     requireSync: true,
   });
-  studentName = toSignal(this.editService.studentName$, { initialValue: null });
-  additionalInformationId = toSignal(
+  protected readonly saving = signal(false);
+  private readonly studentId = toSignal(this.editService.studentId$, {
+    requireSync: true,
+  });
+  protected readonly studentName = toSignal(this.editService.studentName$, {
+    initialValue: null,
+  });
+  protected readonly additionalInformationId = toSignal(
     this.editService.additionalInformationId$,
     {
       requireSync: true,
     },
   );
-  additionalInformation = toSignal(this.editService.additionalInformation$, {
-    initialValue: null,
-  });
-  categories = toSignal(this.editService.categories$, {
+  protected readonly additionalInformation = toSignal(
+    this.editService.additionalInformation$,
+    {
+      initialValue: null,
+    },
+  );
+  protected readonly categories = toSignal(this.editService.categories$, {
     initialValue: [],
   });
-  classTeacherObject = toSignal(
+  protected readonly classTeacherObject = toSignal(
     this.editService.studentId$.pipe(
       switchMap((studentId) =>
         this.editService.getClassTeacherObject(studentId),
@@ -103,7 +110,7 @@ export class StudentDossierEditComponent {
     },
   );
 
-  heading = computed(() =>
+  readonly heading = computed(() =>
     this.additionalInformationId()
       ? this.translate.instant("student.dossier.edit.title-update", {
           designation: this.additionalInformation()?.Designation,
@@ -111,12 +118,12 @@ export class StudentDossierEditComponent {
       : this.translate.instant("student.dossier.edit.title-new"),
   );
 
-  types = ["document", "note"].map((key) => ({
+  protected readonly types = ["document", "note"].map((key) => ({
     key,
     label: this.translate.instant(`student.dossier.edit.type.${key}`),
   }));
 
-  entryFormData = linkedSignal<DossierEntryFormData>(() => {
+  private readonly entryFormData = linkedSignal<DossierEntryFormData>(() => {
     const info = this.additionalInformation();
     return {
       type: info ? (info.File ? "document" : "note") : "document",
@@ -133,7 +140,7 @@ export class StudentDossierEditComponent {
       objectId: info?.ObjectId ?? null,
     };
   });
-  entryForm = form(this.entryFormData, (schema) => {
+  readonly entryForm = form(this.entryFormData, (schema) => {
     const editing = () => Boolean(this.additionalInformation());
     const isDocument = () => this.entryFormData().type === "document";
     const hasFile = () => isDocument() && !editing();
@@ -163,7 +170,7 @@ export class StudentDossierEditComponent {
     disabled(schema.objectId, editing);
   });
 
-  submitted = signal(false);
+  protected readonly submitted = signal(false);
 
   constructor() {
     effect(() => this.updateFormObjectId());
@@ -179,7 +186,7 @@ export class StudentDossierEditComponent {
     const modalRef = this.modalService.open(
       StudentDossierDeleteDialogComponent,
     );
-    modalRef.componentInstance.type = info.File ? "document" : "note";
+    modalRef.setInput("type", info.File ? "document" : "note");
 
     let result = false;
     try {

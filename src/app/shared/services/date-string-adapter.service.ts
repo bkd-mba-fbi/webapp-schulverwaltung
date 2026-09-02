@@ -4,7 +4,7 @@ import { DateParserFormatter } from "./date-parser-formatter";
 
 @Injectable()
 export class DateStringAdapter extends NgbDateAdapter<string> {
-  private parserFormatter = new DateParserFormatter();
+  private readonly parserFormatter = new DateParserFormatter();
 
   /**
    * Converts a date string in the form of 'dd.MM.yyyy' to a `NgbDateStruct`.

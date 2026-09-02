@@ -14,7 +14,7 @@ import {
 })
 /* based on https://medium.com/@swarnakishore/angular-safe-pipe-implementation-to-bypass-domsanitizer-stripping-out-content-c1bf0f1cc36b */
 export class SafePipe implements PipeTransform {
-  protected sanitizer = inject(DomSanitizer);
+  private readonly sanitizer = inject(DomSanitizer);
 
   transform(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

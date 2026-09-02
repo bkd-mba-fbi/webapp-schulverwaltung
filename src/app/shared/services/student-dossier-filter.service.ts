@@ -6,10 +6,10 @@ import { StudentDossierEntry } from "./student-dossier.service";
 
 @Injectable()
 export class StudentDossierFilterService {
-  private dossierEntriesSubject$ = new BehaviorSubject<
+  private readonly dossierEntriesSubject$ = new BehaviorSubject<
     ReadonlyArray<StudentDossierEntry>
   >([]);
-  private selectedCategoriesSubject$ = new BehaviorSubject<
+  private readonly selectedCategoriesSubject$ = new BehaviorSubject<
     ReadonlyArray<string>
   >([]);
 

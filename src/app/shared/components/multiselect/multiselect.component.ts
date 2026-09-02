@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, input, linkedSignal, model } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TranslatePipe } from "@ngx-translate/core";
+import { isEqual } from "lodash-es";
 import { DropDownGroupedItem } from "../../models/drop-down-grouped-item.model";
 import { DropDownItem } from "../../models/drop-down-item.model";
 
@@ -12,16 +13,22 @@ import { DropDownItem } from "../../models/drop-down-item.model";
   imports: [NgSelectModule, FormsModule, TranslatePipe],
 })
 export class MultiselectComponent {
-  @Input() id: Option<string> = null;
-  @Input() options: ReadonlyArray<DropDownGroupedItem> = [];
-  @Input() values: Option<ReadonlyArray<DropDownItem["Key"]>> = [];
-  @Output() valuesChange = new EventEmitter<
+  readonly id = input<Option<string>>(null);
+  readonly options = input<ReadonlyArray<DropDownGroupedItem>>([]);
+  readonly values = model<Option<ReadonlyArray<DropDownItem["Key"]>>>([]);
+
+  readonly intermediateValues = linkedSignal<
+    Option<ReadonlyArray<DropDownItem["Key"]>>,
     Option<ReadonlyArray<DropDownItem["Key"]>>
-  >();
+  >({
+    source: () => this.values(),
+    computation: (values, previous) =>
+      previous && isEqual(previous.source, values) ? previous.value : values,
+  });
 
   constructor() {}
 
   itemsChanged(): void {
-    this.valuesChange.emit(this.values);
+    this.values.set(this.intermediateValues());
   }
 }

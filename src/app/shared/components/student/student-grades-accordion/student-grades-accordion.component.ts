@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { Component, Input, OnChanges, inject } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import {
   NgbAccordionBody,
   NgbAccordionCollapse,
@@ -8,7 +8,6 @@ import {
   NgbCollapse,
 } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe } from "@ngx-translate/core";
-import { BehaviorSubject } from "rxjs";
 import {
   Course,
   FinalGrading,
@@ -46,30 +45,28 @@ export interface CourseWithGrades {
     TranslatePipe,
   ],
 })
-export class StudentGradesAccordionComponent implements OnChanges {
-  dossierGradesService = inject(StudentGradesService);
+export class StudentGradesAccordionComponent {
+  private readonly dossierGradesService = inject(StudentGradesService);
 
-  @Input() courses: ReadonlyArray<Course>;
-  @Input() studentId: number;
-  @Input() gradingScales: ReadonlyArray<GradingScale>;
-  @Input() isEditable: boolean = true;
+  readonly courses = input.required<ReadonlyArray<Course>>();
+  readonly studentId = input.required<number>();
+  readonly gradingScales = input.required<ReadonlyArray<GradingScale>>();
+  readonly isEditable = input<boolean>(true);
 
-  decoratedCoursesSubject$ = new BehaviorSubject<CourseWithGrades[]>([]);
+  protected readonly decoratedCourses = computed<
+    ReadonlyArray<CourseWithGrades>
+  >(() => this.getDecoratedCourses());
 
-  ngOnChanges() {
-    this.decoratedCoursesSubject$.next(this.decorateCourses());
-  }
-
-  private decorateCourses(): CourseWithGrades[] {
-    return this.courses.map((course) => {
+  private getDecoratedCourses(): CourseWithGrades[] {
+    return this.courses().map((course) => {
       const finalGrade = this.dossierGradesService.getFinalGradeForStudent(
         course,
-        this.studentId,
+        this.studentId(),
       );
       const grades = this.dossierGradesService.getGradesForStudent(
         course,
-        this.studentId,
-        this.gradingScales,
+        this.studentId(),
+        this.gradingScales(),
       );
 
       return {
@@ -77,11 +74,11 @@ export class StudentGradesAccordionComponent implements OnChanges {
         finalGrade,
         grading: this.dossierGradesService.getGradingForStudent(
           course,
-          this.studentId,
+          this.studentId(),
         ),
         gradingScale: this.dossierGradesService.getGradingScaleOfCourse(
           course,
-          this.gradingScales,
+          this.gradingScales(),
         ),
         average: finalGrade?.AverageTestResult || weightedAverage(grades),
       };

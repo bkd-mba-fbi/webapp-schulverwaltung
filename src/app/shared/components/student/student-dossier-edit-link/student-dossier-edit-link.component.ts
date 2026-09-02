@@ -10,5 +10,5 @@ import { StudentDossierEntry } from "src/app/shared/services/student-dossier.ser
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDossierEditLinkComponent {
-  entry = input.required<StudentDossierEntry>();
+  readonly entry = input.required<StudentDossierEntry>();
 }
