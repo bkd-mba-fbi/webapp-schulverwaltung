@@ -47,6 +47,11 @@ export default tseslint.config(
         },
       ],
 
+      "@angular-eslint/prefer-signals": "error",
+      "@angular-eslint/prefer-output-emitter-ref": "error",
+      "@angular-eslint/prefer-output-readonly": "error",
+      "@angular-eslint/prefer-signal-model": "error",
+
       "no-restricted-globals": [
         "error",
         {
@@ -76,6 +81,7 @@ export default tseslint.config(
       ],
 
       "@typescript-eslint/no-deprecated": "warn",
+      "@typescript-eslint/prefer-readonly": "error",
 
       "@typescript-eslint/no-unused-vars": [
         "error",
