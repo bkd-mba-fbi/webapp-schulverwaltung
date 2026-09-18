@@ -14,12 +14,14 @@
 - We use [OnPush](https://angular.dev/best-practices/skipping-subtrees#using-onpush) instead of the `Default` change detection strategy
   - As a consequence, state has to be handled reactively, using signals (preferred) or observables (for more advanced async use cases) → see next section
   - When generating components with `ng generate component` the correct strategy will already be configured
+- We mark properties that are not modified (such as signals, observables etc.) with `readonly`
+- We mark properties and methods only used in the component logic with `private` and such that are used in template with `protected`.
 
 ## Reactivity
 
-Previously the go-to tool for reactivity has been RxJS and observables. With Angular 17 a new reactive building block has been introduced: signals. With this change Angular is shifting towards signal-based APIs and patterns. But as of 2025 this is still "work in progress" and there are dos and don'ts to consider:
+Historically the go-to tool for reactivity in Angular has been RxJS and observables. With Angular 17 a new reactive building block has been introduced: signals. Here are dos and don'ts to consider:
 
-- For data fetching, we still use the observable-based `HttpClient` API for now, since with signals a pattern still has to emerge.
+- For data fetching, we keep using the observable-based `HttpClient` API, since it encapsulates the parsing with io-ts and allows to execute the requests lazily (which won't be the case with `httpResource`).
 - In terms of the ergonomics it is desirable to work with signals in components/templates. They allow to always read the current value (also for `computed`s, no `value$.pipe(take(1)).subscribe(value => ...)`) and it is easy to define derived values with `computed(() => ...)`.
 - Observables can be converted to signals using `toSignal`, but there are important things to note:
   - `toSignal` is not lazy, it subscribes to the observable (and causes the fetching of the data) no matter if the signal is read or not. The behavior can be compared to a "hot" observable.
@@ -28,5 +30,4 @@ Previously the go-to tool for reactivity has been RxJS and observables. With Ang
   - Global services with `{ providedIn: "root" }` should not use `toSignal` and `toLazySignal`, since these observables will never get unsubscribed, unless a "hot" observable is the desired behavior.
   - Local services (provided in the context of a component or route) should always use `toLazySignal` when data fetching is involved.
   - Be aware, that converting signals created with `toLazySignal` back with `toObservable` will cause them to be not lazy anymore.
-- `input` and `model` signals are preferred over `@Input` since they allow to integrate in the reactive world nicely (no more `Subject` that is `next`ed in `ngOnChanges`). And also, they allow to mark inputs as `input.required`.
-- Function-based `output` is preferred over `@Output`.
+- `input` and `model` signals allow to integrate in the reactive world nicely (no more `Subject` that is `next`ed in `ngOnChanges`). And also, they allow to mark inputs as `input.required` for a cleaner typing.
