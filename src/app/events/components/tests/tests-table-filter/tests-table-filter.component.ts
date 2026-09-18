@@ -16,7 +16,7 @@ import {
 export class TestsTableFilterComponent {
   private readonly translate = inject(TranslateService);
 
-  protected readonly filter = model<TestsFilter>(INITIAL_TESTS_FILTER);
+  readonly filter = model<TestsFilter>(INITIAL_TESTS_FILTER);
 
   protected readonly onlyMineOptions: ReadonlyArray<{
     key: string;
