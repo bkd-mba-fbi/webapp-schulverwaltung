@@ -94,7 +94,7 @@
     "lint-staged": "^17.6.0",
     "prettier": "^3.8.4",
     "typescript": "~5.9.0",
-    "typescript-eslint": "^8.61.1"
+    "typescript-eslint": "^8.71.0"
   },
   "lint-staged": {
     "./src/app/**/*.{ts,html}": "eslint",
