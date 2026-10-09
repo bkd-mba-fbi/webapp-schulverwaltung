@@ -31,6 +31,8 @@ The application is then running on http://localhost:4200.
 
 To be able to make authenticated requests to the API, the OAuth access token has to be available in localStorage (or sessionStorage) under the key `CLX.LoginToken` (by setting `localStorage.setItem("CLX.LoginToken", "ey...")`). If not provided, the application displays an unauthenticated message to the user.
 
+For local OAuth login, provide `dev.auth.json` at `http://localhost:4200/dev.auth.json` with `OAuthServer`, `Instance`, and `ClientId` string properties. The **Get token** controls use the scope claim from the stored JWT to set the initial selection when available; without a token, the first dropdown option is selected. Choose `Tutoring`, `Public`, or `NG` to select a scope for the next login. The controls are shown only on `localhost` when the configuration is available. Login uses the authorization code flow with PKCE (`response_type=code`, `code_challenge_method=s256`) and the current page URL without its route hash as `redirectUrl`; this URL must be registered for the OAuth consumer. The selected scope is sent as `application_scope`. On return, the code is exchanged with a JSON `POST` to `{OAuthServer}/Token` using `grant_type=authorization_code`, `code`, and `code_verifier`. The access token is stored in `sessionStorage` under `CLX.LoginToken`, and the previous application route is restored. **View token** decodes and formats the JWT payload in a modal; the modal also provides local deletion and remote revocation via `POST {OAuthServer}/Authorization/{Instance}/Logout`.
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.

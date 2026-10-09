@@ -60,6 +60,8 @@
               "src/settings.js",
               "src/settings.example.js",
               "src/assets",
+              "src/dev.auth.js",
+              "src/dev.auth.json",
               {
                 "glob": "README.md",
                 "input": ".",
@@ -92,7 +94,7 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
+                  "replace": "src/environments/environment.ts, src/dev.auth.js, src/dev.auth.json",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
