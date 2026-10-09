@@ -119,7 +119,12 @@ async function initializeDevAuth() {
   }
 
   const configResponse = await fetch(oauthConfigUrl, { cache: "no-store" });
-  if (!configResponse.ok) return;
+  if (!configResponse.ok) {
+    window.alert(
+      `Could not load OAuth configuration from ${oauthConfigUrl} (${configResponse.status}). Add a dev.auth.json file to the root of the web server to enable local OAuth login.`,
+    );
+    return;
+  }
 
   const config = await configResponse.json();
   const clientId = isObject(config)
@@ -131,6 +136,9 @@ async function initializeDevAuth() {
     typeof config.Instance !== "string" ||
     typeof clientId !== "string"
   ) {
+    window.alert(
+      `Invalid OAuth configuration from ${oauthConfigUrl}. Add properties "OAuthServer", "Instance" and "ClientId" to the dev.auth.json file to enable local OAuth login.`,
+    );
     return;
   }
 

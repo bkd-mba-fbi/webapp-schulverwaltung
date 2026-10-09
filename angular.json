@@ -94,8 +94,28 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts, src/dev.auth.js, src/dev.auth.json",
+                  "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "index": {
+                "input": "src/index.prod.html",
+                "output": "index.html"
+              },
+              "assets": [
+                "src/favicon.ico",
+                "src/settings.js",
+                "src/settings.example.js",
+                "src/assets",
+                {
+                  "glob": "README.md",
+                  "input": ".",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*.md",
+                  "input": "doc",
+                  "output": "doc"
                 }
               ],
               "optimization": true,
