@@ -60,6 +60,8 @@
               "src/settings.js",
               "src/settings.example.js",
               "src/assets",
+              "src/dev.auth.js",
+              "src/dev.auth.json",
               {
                 "glob": "README.md",
                 "input": ".",
@@ -94,6 +96,26 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "index": {
+                "input": "src/index.prod.html",
+                "output": "index.html"
+              },
+              "assets": [
+                "src/favicon.ico",
+                "src/settings.js",
+                "src/settings.example.js",
+                "src/assets",
+                {
+                  "glob": "README.md",
+                  "input": ".",
+                  "output": "."
+                },
+                {
+                  "glob": "**/*.md",
+                  "input": "doc",
+                  "output": "doc"
                 }
               ],
               "optimization": true,
