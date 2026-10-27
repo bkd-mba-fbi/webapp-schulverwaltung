@@ -170,6 +170,12 @@ export class LessonPresencesRestService extends RestService<
     if (hasRole(this.storage.getPayload()?.roles, "AbsenceAdministratorRole")) {
       return this.getListOfUnconfirmedAbsenceAdministrator(params);
     }
+    if (hasRole(this.storage.getPayload()?.roles, "DepartmentLeaderRole")) {
+      return this.getListOfUnconfirmedSchoolDepartmentLeader(params);
+    }
+    if (hasRole(this.storage.getPayload()?.roles, "SchoolLeaderRole")) {
+      return this.getListOfUnconfirmedSchoolDepartmentLeader(params);
+    }
     return of([]);
   }
 
@@ -363,7 +369,23 @@ export class LessonPresencesRestService extends RestService<
     params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      headers: { "X-Role-Restriction": "AbsenceAdministratorRole" },
+      headers: {
+        "X-Role-Restriction": "AbsenceAdministratorRole",
+      },
+      params: {
+        ...params,
+        "filter.ConfirmationStateId": `=${this.settings.unconfirmedAbsenceStateId}`,
+      },
+    });
+  }
+
+  private getListOfUnconfirmedSchoolDepartmentLeader(
+    params?: Dict<string>,
+  ): Observable<ReadonlyArray<LessonPresence>> {
+    return this.getList({
+      headers: {
+        "X-Role-Restriction": "SchoolLeaderRole,DepartmentLeaderRole",
+      },
       params: {
         ...params,
         "filter.ConfirmationStateId": `=${this.settings.unconfirmedAbsenceStateId}`,
