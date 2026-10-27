@@ -132,7 +132,7 @@ window.schulverwaltung.settings = {
     presenceControl: "LessonTeacherRole;TeacherRole;ClassTeacherRole",
     openAbsences: "LessonTeacherRole;ClassTeacherRole",
     editAbsences:
-      "LessonTeacherRole;ClassTeacherRole;TeacherRole;AbsenceAdministratorRole",
+      "LessonTeacherRole;ClassTeacherRole;TeacherRole;AbsenceAdministratorRole;SchoolLeaderRole;DepartmentLeaderRole",
   },
 
   // Types of notifications and their language-specific texts
