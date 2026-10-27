@@ -25,6 +25,8 @@ const SEARCH_ROLES = [
   "ClassTeacherRole",
   "TeacherRole",
   "AbsenceAdministratorRole",
+  "SchoolLeaderRole",
+  "DepartmentLeaderRole",
 ];
 
 const ACTIONS_ROLES = [
