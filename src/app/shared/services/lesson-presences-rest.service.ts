@@ -383,9 +383,6 @@ export class LessonPresencesRestService extends RestService<
     params?: Dict<string>,
   ): Observable<ReadonlyArray<LessonPresence>> {
     return this.getList({
-      headers: {
-        "X-Role-Restriction": "SchoolLeaderRole,DepartmentLeaderRole",
-      },
       params: {
         ...params,
         "filter.ConfirmationStateId": `=${this.settings.unconfirmedAbsenceStateId}`,
