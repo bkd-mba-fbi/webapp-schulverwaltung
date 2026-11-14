@@ -50,3 +50,4 @@ Thumbs.db
 
 # Project-specific
 /src/settings.js
+/src/dev.auth.json

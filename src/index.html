@@ -20,7 +20,79 @@
       "
     >
       <a style="line-height: 3rem" href="/">Go to Home</a>
+      <div
+        id="dev-auth-controls"
+        style="display: none; gap: 0.5rem; align-items: center"
+      >
+        <button
+          id="show-token-button"
+          class="btn btn-outline-secondary text-nowrap"
+          type="button"
+        >
+          View token
+        </button>
+        <select
+          id="dev-auth-scope"
+          class="form-select"
+          aria-label="OAuth scope"
+        >
+          <option value="Tutoring">Tutoring</option>
+          <option value="Public">Public</option>
+          <option value="NG">NG</option>
+        </select>
+        <button
+          id="get-token-button"
+          class="btn btn-primary text-nowrap"
+          type="button"
+        >
+          Get token
+        </button>
+      </div>
     </div>
     <bkd-app></bkd-app>
+    <dialog
+      id="dev-auth-token-dialog"
+      aria-labelledby="dev-auth-token-title"
+      style="
+        border: 0;
+        border-radius: 0.5rem;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.25);
+        max-width: min(42rem, calc(100vw - 2rem));
+        width: 100%;
+        padding: 1.5rem;
+      "
+    >
+      <h2 id="dev-auth-token-title">JWT payload (decoded)</h2>
+      <pre
+        id="dev-auth-token-value"
+        style="
+          background: #f8f9fa;
+          border: 1px solid #dee2e6;
+          border-radius: 0.25rem;
+          max-height: 50vh;
+          overflow: auto;
+          overflow-wrap: anywhere;
+          padding: 0.75rem;
+          white-space: pre-wrap;
+        "
+      ></pre>
+      <p id="revoke-token-status" role="status" aria-live="polite" hidden></p>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
+        <button id="revoke-token-button" class="btn btn-danger" type="button">
+          Revoke Token
+        </button>
+        <button id="delete-token-button" class="btn btn-warning" type="button">
+          Delete token
+        </button>
+        <button
+          id="close-token-dialog-button"
+          class="btn btn-secondary"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </dialog>
+    <script src="dev.auth.js"></script>
   </body>
 </html>
