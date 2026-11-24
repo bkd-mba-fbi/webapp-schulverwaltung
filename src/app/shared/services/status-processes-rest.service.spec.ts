@@ -25,7 +25,7 @@ describe("StatusProcessesRestService", () => {
         DataClassId: "Anlass",
         Id1: 0, // This will be overwritten with eventId
         Id2: null,
-        IdStatus: 124,
+        IdStatus: 10305,
         Status: "Next Status",
         Direction: "forward",
         StatusDate: "2025-06-17T00:00:00+01:00",
@@ -67,6 +67,31 @@ describe("StatusProcessesRestService", () => {
       tick();
 
       expect(result).toBe(true);
+    }));
+
+    it("does not update status when the next status is not a review status", fakeAsync(() => {
+      const statusId = 123;
+      const eventId = 456;
+      let result: boolean = true;
+
+      void service
+        .forwardStatus(statusId, eventId)
+        .then((res) => (result = res));
+
+      const getRequest = httpTestingController.expectOne((req) => {
+        return (
+          req.url.endsWith("/StatusProcesses/forward/") &&
+          req.params.get("idStatus") === statusId.toString()
+        );
+      });
+
+      getRequest.flush([{ IdStatus: 124 }]);
+      tick();
+
+      expect(result).toBe(false);
+      httpTestingController.expectNone((req) => {
+        return req.url.endsWith("/StatusProcesses/") && req.method === "POST";
+      });
     }));
   });
 });
