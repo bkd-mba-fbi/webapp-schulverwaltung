@@ -7,6 +7,8 @@ import { decodeArray } from "../utils/decode";
 import { LoadingService } from "./loading-service";
 import { PAGE_LOADING_CONTEXT } from "./paginated-entries.service";
 
+const REVIEW_STATUS_IDS = [10305, 10250];
+
 @Injectable({
   providedIn: "root",
 })
@@ -29,7 +31,10 @@ export class StatusProcessesRestService {
         ),
       );
 
-      if (nextStatus) {
+      if (
+        nextStatus != null &&
+        REVIEW_STATUS_IDS.includes((nextStatus as Status).IdStatus)
+      ) {
         await firstValueFrom(
           this.loadingService.load(
             this.updateNextStatus(nextStatus, eventId),
